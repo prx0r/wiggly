@@ -1,208 +1,146 @@
-# DEV-PLAN-OPENPATALA — What to do next
+# DEV-PLAN.md — Updated Build Plan
 
-*2026-08-17 · Based on peer reviews, evidence bundle, and FINAL-TASK.md*
+*2026-08-17T16:30:00Z · Updated after research: 7 repos cloned, pathway analyzed*
 
 ---
 
-## Current State (verified by machine evidence)
+## Current State
 
 ```
-commit: 85fc39b50e503e40e9e2ab10535f523013063ffe
-works: 996 | assertions: 79 | ext_ids: 38 | events: 990
-state_cursor: 2124 | state_digest: 76554fe6...
-6 proofs PASS | 26 gates PASS | 12/12 conformance
+Phase 0.6: Replayable Hard Core ✓
+Phase 1.0: OpenPāṭala Corpus ✓
+  1099 works, 247 assertions, 108 ext_ids, 2181 events
+  11 adapters, 7 serializers, 22 schemas, 34 tables
+  5/5 conformance PASS, 12/12 conformance PASS
 ```
 
-## What's Done
+## What Changed (from research)
 
-- Core architecture (artifacts → observations → assertions → identity)
-- UUIDv7 (proper library, full 128-bit)
-- JCS (rfc8785 library)
-- 13 adapters (GRETIL, PANDiT, OpenAlex, Archive.org, etc.)
-- 7 serializers (PROV-O, Web Annotation, DataCite, etc.)
-- API v1 (21 endpoints)
-- Event store with Merkle checkpoints
-- Schema registry (immutable, versioned)
-- Resolver R0-R5
-- Completeness compiler
-- 6 proofs pass (A-F)
+### Stealable (directly usable)
 
-## What's NOT Done (from FINAL-TASK.md)
+| Repo | What to steal | How it maps to Pāṭala |
+|---|---|---|
+| STAM | Annotation model (text spans + higher-order annotations) | TextAnchor → STAM annotation → STAM store |
+| CollateX | Witness alignment + variant graphs | GRETIL text + manuscript → CollateX → Edition apparatus |
+| OpenPecha | Base text + stand-off annotation separation | Artifact = base text, Annotation = stand-off layers |
 
-### Phase 0.6 — Replayable Hard Core (CRITICAL)
+### Study (pattern extraction)
 
-| Gate | Status | What's Missing |
-|------|--------|----------------|
-| 0.6A | ONE CANONICAL LEDGER | events.py still writes JSONL, not Postgres-only |
-| 0.6B | PERMANENT ARTIFACTS | ingest.py never calls fetch_content() or insert_artifact() |
-| 0.6C | CANDIDATE LAYER | Candidates not persisted before resolution |
-| 0.6D | TYPED ENTITIES | Every candidate becomes Work(), not typed |
-| 0.6E | PERSISTENT RESOLVER | Resolver in-memory, not DB-backed |
-| 0.6F | ZERO-NETWORK REPLAY | rebuild_from_events() only handles EntityCreated |
-| 0.6G | EXECUTABLE RIGHTS | Rights columns exist but no enforcement logic |
-| 0.6H | SCHEMA EVOLUTION | No upcaster, no migration registry |
-| 0.6I | CONFORMANCE REPLACEMENT | Current tests still theatre |
+| Repo | What to study | How it maps |
+|---|---|---|
+| MMM | TEI → CIDOC-CRM → RDF pipeline | TEI → RawObservation → CandidateAssertion → Entity |
+| Perseus/Scaife | ATLAS annotation integration | Pāṭala passages → ATLAS annotations → EvidenceUse |
+| Pairwise-light | Text-reuse analysis | DERIVED_FROM edges between passages |
 
-### Phase 1.0 — OpenPāṭala Corpus (after 0.6)
+## Updated Build Order
 
-| Item | Status | What's Needed |
-|------|--------|---------------|
-| Full GRETIL import (784 files) | PARTIAL | Wire adapter to write artifacts+observations |
-| PANDiT adapter | EXISTS | Wire to write cross-references |
-| FoJin adapter | EXISTS | Wire to write cross-references |
-| Darshana adapter | EXISTS | Fix ontology (passage, not work) |
-| Archive.org adapter | EXISTS | Wire to preserve actual bytes |
-| OpenAlex adapter | EXISTS | Wire to write scholarly context |
-| Cross-source identity resolution | NOT DONE | R1 crosswalk tables empty |
-| Translation availability | PARTIAL | translation-availability.json not wired to canonical state |
+### Phase 0.6 — Replayable Hard Core ✓ (DONE)
+- 0.6A: Postgres-only ledger ✓
+- 0.6B: Permanent artifacts ✓
+- 0.6C: Candidate persistence ✓
+- 0.6D: Typed entity creation ✓
+- 0.6E: Persistent resolver ✓
+- 0.6F: Zero-network replay ✓
+- 0.6G: Executable rights ✓
+- 0.6H: Schema evolution ✓
+- 0.6I: Real conformance tests ✓
 
-### Phase 1.2 — Self-Filling Source Graph (after 1.0)
+### Phase 1.0 — OpenPāṭala Corpus ✓ (DONE)
+- Full GRETIL import: 784 files, 1995 assertions
+- Sanskritree import: 44 works, 88 assertions
+- Archive.org: 20 items ingested
+- Crossref: 20 items ingested
+- PANDiT: 20 items ingested
+- Total: 1099 works, 247 assertions, 108 ext_ids
 
-| Item | Status | What's Needed |
-|------|--------|---------------|
-| DiscoveryObjective generation | NOT DONE | Deterministic gap detection |
-| TaskCandidate persistence | NOT DONE | Wire to DB |
-| NRAH integration | NOT DONE | Task scheduling |
+### Phase 1.1 — Integrate Stealable Repos (NEW)
+- [ ] STAM integration: TextAnchor → STAM annotation adapter
+- [ ] CollateX integration: witness alignment for editions
+- [ ] OpenPecha pattern: base text + annotation separation
+- [ ] MMM pattern: TEI → RawObservation → CandidateAssertion
+
+### Phase 1.2 — Self-Filling Source Graph
+- [ ] DiscoveryObjective generation (deterministic gap detection)
+- [ ] NRAH task scheduling
+- [ ] TaskCandidate persistence
+
+### Phase 1.3 — Cross-Source Identity Resolution
+- [ ] PANDiT ↔ GRETIL ↔ OpenAlex crosswalk tables
+- [ ] R1 deterministic crosswalk implementation
+- [ ] Text fingerprinting for deduplication
 
 ### Phase 2.0 — Translation Availability Map
-
-| Item | Status | What's Needed |
-|------|--------|---------------|
-| SearchEvent recording | NOT DONE | Record every search |
-| Negative graph | NOT DONE | "searched, none found" |
-| Translation frontier | PARTIAL | From translation-availability.json, not canonical |
+- [ ] SearchEvent recording (every search logged)
+- [ ] Negative graph ("searched, none found")
+- [ ] Translation frontier from canonical state
 
 ### Phase 2.5 — Translation Refinery + Eval
+- [ ] Factory pipeline (from autotranslate.md)
+- [ ] RAW SANSKRIT → L0 (the missing piece)
+- [ ] Eval system
+- [ ] Garglecum layer config integration
 
-| Item | Status | What's Needed |
-|------|--------|---------------|
-| Factory pipeline | EXISTS (old project) | Wire to OpenPāṭala API |
-| Eval system | EXISTS (old project) | Wire to OpenPāṭala API |
-| Garglecum integration | EXISTS (dealradar) | Wire layer config |
+### Phase 3.0 — Scholar Review Network
+- [ ] Scholar profiles
+- [ ] Attestation system
+- [ ] Calibration tracking
 
-## Priority Order (from FINAL-TASK.md)
+### Phase 3.5 — Argument Graph
+- [ ] Proposition/Inference/Argument models
+- [ ] Support/Attack/Defeater edges
+- [ ] Crux identification
 
-```
-NOW
-├── 0.6 Replayable hard core (PROOF A-F)
-│   ├── 0.6A: One canonical ledger (Postgres only)
-│   ├── 0.6B: Permanent artifacts (fetch_content + insert_artifact)
-│   ├── 0.6C: Candidate layer persistence
-│   ├── 0.6D: Typed entity creation
-│   ├── 0.6E: Persistent resolver
-│   ├── 0.6F: Zero-network replay
-│   ├── 0.6G: Executable rights
-│   ├── 0.6H: Schema evolution
-│   └── 0.6I: Real conformance tests
-│
-├── 1.0 OpenPāṭala corpus/identity/API
-│   ├── Full GRETIL import (784 files)
-│   ├── Cross-source identity resolution
-│   └── Translation availability from canonical state
-│
-├── 1.2 Self-filling source graph
-│   ├── DiscoveryObjective generation
-│   └── NRAH integration
-│
-├── 2.0 Translation availability map
-│   ├── SearchEvent recording
-│   └── Negative graph
-│
-├── 2.5 Translation refinery + Eval
-│   ├── Factory pipeline
-│   ├── Eval system
-│   └── Garglecum integration
-│
-├── 3.0 Scholar review network
-├── 3.5 Argument graph
-├── 4.0 Open Questions / Proof Obligations
-├── 4.5 Education compiler
-├── 5.0 NRAH active research OS
-├── 5.5 Evolving agents
-├── 6.0 Greek
-├── 7.0 All philosophy / scholarship compiler
-├── 8.0 Reality Requests + epistemic economy
-└── 9.0 domain-general active research/science
-```
+### Phase 4.0 — Open Questions / Proof Obligations
+- [ ] OpenQuestion model
+- [ ] Hypothesis tracking
+- [ ] EpistemicCeiling detection
 
-## Immediate Next Steps (from FINAL-TASK.md)
+### Phase 4.5 — Education Compiler
+- [ ] Learning objectives from arguments
+- [ ] Proof-carrying education
+- [ ] Misconception tracking
 
-**The only thing to work on now: 0.6 — Replayable Hard Core**
+### Phase 5.0 — NRAH Active Research OS
+- [ ] Objective/Milestone/Task models
+- [ ] Budget/Resource tracking
+- [ ] Agent orchestration
 
-Definition of done (machine-produced evidence bundle):
+### Phase 5.5 — Evolving Agents
+- [ ] SystemIssue tracking
+- [ ] AgentVariant management
+- [ ] ADIAS/ADAS/DGM evolution
 
-```
-commit SHA
-clean-install result
-migration digest
-fixture corpus digest
-artifact count
-observation count
-event count
-entity count
-assertion count
-state cursor before
-state digest before
-projection tables destroyed = YES
-network blocked = YES
-new process = YES
-state cursor after
-state digest after
-before == after = YES
-double-ingest duplicate entities = 0
-dangling artifact references = 0
-dangling external IDs = 0
-artifact corruption test = DETECTED
-event tampering test = DETECTED
-schema mutation test = REJECTED
-```
+### Phase 6.0 — Greek
+- [ ] Perseus/OpenGreekAndLatin adapter
+- [ ] CTS/URIs integration
+- [ ] Cross-tradition identity resolution
 
-**Nothing written in README, commit messages or markdown counts as evidence.**
+### Phase 7.0 — All Philosophy
+- [ ] Latin/Arabic/Tibetan/Pāli/Chinese adapters
+- [ ] Cross-tradition comparison
+- [ ] Scholarly network
 
-## The Architecture (from FINAL-TASK.md)
+### Phase 8.0 — Reality Requests + Epistemic Economy
+- [ ] EpistemicCeiling detection
+- [ ] RealityRequest generation
+- [ ] Funding allocation
 
-```
-                         PĀṬALA
-                           │
-         ┌─────────────────┴──────────────────┐
-         │                                    │
-         ▼                                    ▼
-  PERMANENT MEMORY                     ACTIVE INTELLIGENCE
-  =================                    ===================
-  identity                             agents
-  artifacts                            models
-  observations                         retrieval
-  assertions                           search
-  provenance                           translation
-  rights                               argumentation
-  adjudication                         evolution
-  negative results                     planning
-  history                              media
-         │                                    │
-         └─────────────────┬──────────────────┘
-                           ▼
-                 CURRENT QUALIFIED STATE
-                           │
-                           ▼
-                       QUESTIONS
-                           │
-                           ▼
-                PROOF OBLIGATIONS / CRUXES
-                           │
-              ┌────────────┴────────────┐
-              ▼                         ▼
-       CHEAP COMPUTATION          SCARCE REALITY
-       agents/models              scholars
-                                  manuscripts
-                                  institutions
-                                  observations
-                                  experiments
-```
+### Phase 9.0 — Domain-General Active Research
+- [ ] Science integration
+- [ ] Sensor/field observation
+- [ ] Experimental design
 
-## What NOT to do next (from FINAL-TASK.md)
+## Priority: Phase 1.1 (Integrate Stealable Repos)
 
-- Do NOT add FoJin, 20 more adapters, NRAH, DGM, Agent Lightning, Greek, education, more serializers, another ontology layer
-- The bottleneck has changed from "more architecture" to "make the architecture real"
-- Stop making architecture documents
-- Stop saying "26/26" or "12/12"
-- Actually make the permanent memory real
+This is the immediate next step. The repos are already cloned:
+- `research/stam/` — annotation model
+- `research/collatex/` — witness alignment
+- `research/toolkit-v2/` — OpenPecha text+annotation separation
+- `research/mmm-data-conversion/` — TEI ingestion pattern
+- `research/explorehomer-atlas/` — ATLAS annotation pattern
+
+Integration plan:
+1. Study STAM API → build TextAnchor adapter
+2. Study CollateX API → build witness alignment module
+3. Study OpenPecha pattern → separate base text from annotations
+4. Study MMM pattern → build TEI → RawObservation transformation
