@@ -27,7 +27,7 @@ class ResolutionProposal:
     Per newbuildmainspec §46: "Keep thresholds conservative.
     False merges are more damaging than duplicate entities."
     """
-    id: str = field(default_factory=lambda: f"PTRSL_{uuid7()[:12]}")
+    id: str = field(default_factory=lambda: f"PTRSL_{uuid7()}")
     candidate_ids: list[str] = field(default_factory=list)
     proposed_entity_id: str | None = None
     relation: str = "PROBABLE_IDENTITY"

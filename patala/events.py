@@ -29,7 +29,7 @@ class Event:
 
     Per newbuild1 §8: "Something happened. Not: Here is the current state of the world."
     """
-    event_id: str = field(default_factory=lambda: f"PTEVT_{uuid7()[:12]}")
+    event_id: str = field(default_factory=lambda: f"PTEVT_{uuid7()}")
     event_type: str = ""
     stream_id: str | None = None
     entity_ids: list[str] = field(default_factory=list)
@@ -51,7 +51,7 @@ class MerkleCheckpoint:
 
     Per newbuild1 §34-35: "Many events → one independently verifiable root."
     """
-    id: str = field(default_factory=lambda: f"PTCHK_{uuid7()[:12]}")
+    id: str = field(default_factory=lambda: f"PTCHK_{uuid7()}")
     previous_checkpoint_id: str | None = None
     first_event_cursor: int = 0
     last_event_cursor: int = 0

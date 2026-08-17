@@ -142,7 +142,7 @@ class IngestionPipeline:
                 payload={"title": candidate.get("title", "")},
             )
             store.insert_event(
-                f"PTEVT_{uuid7()[:16]}", "EntityCreated",
+                f"PTEVT_{uuid7()}", "EntityCreated",
                 [entity_id], {"title": candidate.get("title", "")}
             )
             self.stats["events"] += 1

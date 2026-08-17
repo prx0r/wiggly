@@ -35,13 +35,13 @@ class Work:
 
     def __post_init__(self):
         if not self.id:
-            self.id = f"PTW_{uuid7().replace('-', '')[:16]}"
+            self.id = f"PTW_{uuid7()}"
 
 
 @dataclass
 class Person:
     """A person (author, scholar, translator)."""
-    id: str = field(default_factory=lambda: f"PTP_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTP_{uuid7()}")
     preferred_name: str = ""
     external_ids: list[dict] = field(default_factory=list)  # ORCID, PANDiT, etc.
     created_at: str = ""
@@ -50,7 +50,7 @@ class Person:
 @dataclass
 class Institution:
     """An institution (publisher, library, university)."""
-    id: str = field(default_factory=lambda: f"PTINST_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTINST_{uuid7()}")
     preferred_name: str = ""
     external_ids: list[dict] = field(default_factory=list)  # ROR, etc.
     location: str | None = None
@@ -60,7 +60,7 @@ class Institution:
 @dataclass
 class Edition:
     """A published edition of a work."""
-    id: str = field(default_factory=lambda: f"PTED_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTED_{uuid7()}")
     work_id: str | None = None
     title: str = ""
     publication_assertions: list[dict] = field(default_factory=list)
@@ -74,7 +74,7 @@ class Edition:
 @dataclass
 class Witness:
     """A physical manuscript witness."""
-    id: str = field(default_factory=lambda: f"PTMS_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTMS_{uuid7()}")
     work_id: str | None = None
     holding_institution_id: str | None = None
     shelfmark: str | None = None
@@ -86,7 +86,7 @@ class Witness:
 @dataclass
 class Surrogate:
     """A digital surrogate of a witness (scan, photo, IIIF)."""
-    id: str = field(default_factory=lambda: f"PTSRG_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTSRG_{uuid7()}")
     witness_id: str | None = None
     provider_id: str = ""
     manifestation_type: str = "SCAN"  # SCAN | PHOTO | MICROFILM | IIIF
@@ -98,7 +98,7 @@ class Surrogate:
 @dataclass
 class EText:
     """A machine-readable text (TEI, plain, etc.)."""
-    id: str = field(default_factory=lambda: f"PTTX_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTTX_{uuid7()}")
     work_id: str | None = None
     edition_id: str | None = None
     witness_id: str | None = None
@@ -119,7 +119,7 @@ class Translation:
     Per newbuildmainspec §22: "Translation existence is a canonical entity state,
     not a boolean. Translation must not simply be another edition_type."
     """
-    id: str = field(default_factory=lambda: f"PTTR_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTTR_{uuid7()}")
     work_id: str | None = None
     target_language: str = "eng"
     translator_ids: list[str] = field(default_factory=list)
@@ -135,7 +135,7 @@ class Translation:
 @dataclass
 class LogicalPassage:
     """A logical citation (e.g. Tantrāloka 3.17)."""
-    id: str = field(default_factory=lambda: f"PTPASS_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTPASS_{uuid7()}")
     work_id: str = ""
     citation_scheme: str = ""  # e.g. "chapter.verse"
     citation_value: str = ""  # e.g. "3.17"
@@ -149,7 +149,7 @@ class TextOccurrence:
 
     Per newbuildmainspec §20: Separates logical citation from occurrence.
     """
-    id: str = field(default_factory=lambda: f"PTTOC_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTTOC_{uuid7()}")
     logical_passage_id: str | None = None
     carrier_type: str = "ETEXT"  # ETEXT | EDITION | WITNESS | TRANSLATION
     carrier_id: str = ""
@@ -166,7 +166,7 @@ class TextSpan:
 
     Per newbuild1 §43: 'Use multiple selectors. W3C Web Annotation model.'
     """
-    id: str = field(default_factory=lambda: f"PTSPAN_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTSPAN_{uuid7()}")
     occurrence_id: str = ""
     selector_type: str = "CHAR_OFFSET"  # CHAR_OFFSET | TOKEN_RANGE | LINE_RANGE | XML_ID | XPATH | IIIF_REGION
     start: int | None = None
@@ -196,7 +196,7 @@ class SearchEvent:
 
     Per newbuildmainspec §25: 'Pāṭala searched these sources and found none.'
     """
-    id: str = field(default_factory=lambda: f"PTSE_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTSE_{uuid7()}")
     query_type: str = "TRANSLATION"  # TRANSLATION | WORK | EDITION | WITNESS | SOURCE
     target_id: str | None = None
     query_terms: list[str] = field(default_factory=list)
@@ -215,7 +215,7 @@ class AuthorityEvidence:
 
     Per newbuildmainspec §29: 'Do not collapse into verified=true.'
     """
-    id: str = field(default_factory=lambda: f"PTAUTH_{uuid7().replace('-', '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTAUTH_{uuid7()}")
     subject_id: str = ""
     dimension: str = ""  # WORK_IDENTITY | AUTHOR_IDENTITY | EDITION_IDENTITY | ETEXT_DERIVATION | ...
     state: str = ""

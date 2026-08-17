@@ -242,7 +242,7 @@ def normalize_sanskrit_text(text: str) -> str:
 
 def make_artifact_id() -> str:
     """Generate an Artifact ID with prefix."""
-    return f"PTART_{uuid7()[:12]}"
+    return f"PTART_{uuid7()}"
 
 
 def make_entity_id(prefix: str = "PTW") -> str:
@@ -250,17 +250,17 @@ def make_entity_id(prefix: str = "PTW") -> str:
 
     Per newbuild1 §2: "Prefix = convenience. UUID = identity."
     """
-    return f"{prefix}_{uuid7()[:12]}"
+    return f"{prefix}_{uuid7()}"
 
 
 def make_observation_id() -> str:
     """Generate an observation ID."""
-    return f"PTOBS_{uuid7()[:12]}"
+    return f"PTOBS_{uuid7()}"
 
 
 def make_assertion_id() -> str:
     """Generate an assertion ID."""
-    return f"PTCAS_{uuid7()[:12]}"
+    return f"PTCAS_{uuid7()}"
 
 
 if __name__ == "__main__":

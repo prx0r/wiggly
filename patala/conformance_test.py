@@ -183,14 +183,14 @@ class ConformanceTest:
     def step9(self) -> bool:
         """Entity split — old ID returns 409."""
         print("  Testing entity split (409 behavior)...")
-        split_id = f"PTSPL_{uuid7()[:12]}"
-        old_id = f"PTW_{uuid7()[:12]}"
-        new_ids = [f"PTW_{uuid7()[:12]}", f"PTW_{uuid7()[:12]}"]
+        split_id = f"PTSPL_{uuid7()}"
+        old_id = f"PTW_{uuid7()}"
+        new_ids = [f"PTW_{uuid7()}", f"PTW_{uuid7()}"]
         conn = store.get_conn()
         cur = conn.cursor()
         cur.execute(
             "INSERT INTO identity_splits (id, old_id, new_ids, allocation_evidence, event_id) VALUES (%s, %s, %s, %s, %s)",
-            (split_id, old_id, new_ids, "Test split", f"PTEVT_{uuid7()[:12]}")
+            (split_id, old_id, new_ids, "Test split", f"PTEVT_{uuid7()}")
         )
         conn.commit()
         cur.close()
