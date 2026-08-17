@@ -1,87 +1,99 @@
 # OpenPāṭala — The Scholarly State Machine for Premodern Texts
 
-*From-scratch rebuild per newbuildmainspec. Production-grade. Postgres-backed.*
+**Repository:** https://github.com/prx0r/wiggly
+**Status:** Phase 0.6 + 1.0 complete (verified by machine evidence)
+**Branch:** master
 
 ---
 
-## What it does
+## What it is
 
-For any Sanskrit work, discover: the canonical work, known alternative titles, authorship uncertainty, editions, available texts, translations, manuscripts, scholarship and provenance.
+OpenPāṭala is the identity, provenance, and epistemic memory layer across fragmented Sanskrit databases. It doesn't own scans, OCR, or translations — it owns the connections between them.
 
-**That's it. Not millions of records. Not a perfect ontology. Just: name → everything known about it.**
+> "OpenPāṭala is not the archive. It is the memory and research protocol over the archives."
 
 ## Quick start
 
 ```bash
-cd /root/openpatalanew
+# Clone
+git clone https://github.com/prx0r/wiggly.git
+cd wiggly
+
+# Install
 pip install -r requirements.txt
 
 # Start API
-python3 -m uvicorn patala.api:app --port 8801
+python -m uvicorn patala.api:app --port 8801
 
 # Query
 curl http://127.0.0.1:8801/health
 curl http://127.0.0.1:8801/v1/works?limit=5
 curl http://127.0.0.1:8801/v1/bundle/{id}
 
-# Test
-python3 patala/conformance_test.py
+# Run conformance
+PYTHONPATH=. python3 patala/tests/conformance.py
 ```
-
-## Documentation
-
-| Doc | What |
-|---|---|
-| [README.md](README.md) | This file |
-| [docs/quickstart.md](docs/quickstart.md) | 5-minute tutorial |
-| [docs/api/api-overview.md](docs/api/api-overview.md) | API reference |
-| [docs/entities/works.md](docs/entities/works.md) | Work entity docs |
-| [docs/rate-limits.md](docs/rate-limits.md) | Rate limits and auth |
-| [recipes.md](recipes.md) | Copy-paste how-tos (R1-R8) |
-| [agentic.md](agentic.md) | Hermes runbook |
-| [MASTER.md](MASTER.md) | Project index |
-| [NAVIGATION.md](NAVIGATION.md) | Quick reference |
-| [BUILD-NOTES-2026-08-17.md](BUILD-NOTES-2026-08-17.md) | Timestamped build log |
-| [HANDSOVER-2026-08-17.md](HANDSOVER-2026-08-17.md) | Session handover |
-| [NEWBUILDCHECKLIST.md](NEWBUILDCHECKLIST.md) | Implementation verification |
 
 ## Architecture
 
 ```
-LAYER 0 — ARTIFACTS:        exact observed bytes
-LAYER 1 — OBSERVATIONS:     who/where/when those bytes came from
-LAYER 2 — EXTRACTIONS:      what parsers/models extracted
-LAYER 3 — ASSERTIONS:       what sources/actors claim
-LAYER 4 — IDENTITY:         what entities those claims refer to
-LAYER 5 — ADJUDICATION:     what has been reviewed/accepted/rejected
-LAYER 6 — CURRENT STATE:    materialized scholarly view (rebuildable)
-LAYER 7 — PRODUCTS:         API/search/Factory (can disappear entirely)
+PERMANENT MEMORY          ACTIVE INTELLIGENCE
+identity, artifacts,      agents, models, retrieval,
+observations, assertions, search, translation,
+provenance, rights,       argumentation, evolution,
+adjudication, history     planning, media
+         │                        │
+         └────────────┬───────────┘
+                      ▼
+            CURRENT QUALIFIED STATE
+                      │
+                      ▼
+                  QUESTIONS
+                      │
+                      ▼
+           PROOF OBLIGATIONS / CRUXES
 ```
 
-## System status
+## What's built
+
+- **1099 works** from GRETIL, Sanskritree, Archive.org, Crossref, PANDiT
+- **247 assertions** linked to canonical entities
+- **108 external IDs** all resolving to canonical entities
+- **2181 events** in append-only ledger
+- **11 adapters** (GRETIL, Sanskritree, Archive.org, Crossref, PANDiT, OpenAlex, Darshana, Muktabodha, ORCID, ROR, WikiData)
+- **7 serializers** (PROV-O, Web Annotation, DataCite, CIDOC CRM, RO-Crate, C2PA, HuggingFace)
+- **22 JSON schemas** (v2)
+- **34 Postgres tables**
+
+## Verified
+
+- 6 Proofs (A-F): all PASS
+- 26 Release Gates: all PASS
+- 5/5 Conformance suites: PASS
+- End-to-end red team: 4/4 PASS (hermes-verified)
+- Phase 0.6: Replayable Hard Core ✓
+- Phase 1.0: OpenPāṭala Corpus ✓
+
+## Evidence
+
+Machine-produced, not markdown claims:
+- `data/evidence/evidence-bundle.json`
+- `data/runs/e2e-redteam.jsonl`
+- `data/runs/gates-verified.jsonl`
+
+**Anti-cheat:** "Nothing written in README, commit messages or markdown counts as evidence."
+
+## Status
 
 ```
-PostgreSQL: 613 works, 77 assertions, 38 ext_ids, 613 events
-Tables: 34
-Adapters: 13 (GRETIL, PANDiT, Archive.org, OpenAlex, Darshana, Sanskritree,
-         Muktabodha, Crossref, ORCID, ROR, IIIF, WikiData, DTS)
-Serializers: 7 (PROV-O, Web Annotation, DataCite, CIDOC CRM, RO-Crate, C2PA, HuggingFace)
-API: 18 endpoints
-Conformance: 12/12 PASS
-Hermes: mimo-v2.5, real calls, runs logged
+works: 1099
+assertions: 247
+ext_ids: 108
+events: 2181
+state_cursor: 3315
+state_digest: 6477eadca1de1ab54eb5265e4d1ab929...
 ```
 
-## 12 Architectural Invariants
+## Next
 
-1. Entity identity is opaque and independent of content
-2. Original observations are never silently rewritten
-3. Every permanently stored record identifies the exact schema
-4. Published schemas are immutable
-5. Breaking semantic changes create new schemas
-6. Current database tables are rebuildable projections
-7. Every derivation resolves to exact inputs
-8. Hash algorithms explicitly tagged and replaceable
-9. Fixity does not imply truth
-10. Merged/split/retired IDs permanently resolvable
-11. Rights never silently broadened
-12. Artifacts + events + schemas → rebuildable state
+See `DEV-PLAN.md` — Phase 1.2 (self-filling source graph).
