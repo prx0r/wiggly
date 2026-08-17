@@ -241,7 +241,7 @@ class DocumentSegment:
 
     Per newbuildmainspec §49: 'Huge improvement over the current verse-first worldview.'
     """
-    id: str = field(default_factory=lambda: f"PTSEG_{uuid7().replace(chr(45), '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTSEG_{uuid7()}")
     etext_id: str = ""
     parent_id: str | None = None
     segment_type: str = "UNKNOWN"  # WORK | CHAPTER | SECTION | VERSE | PROSE | COLOPHON | COMMENTARY | HEADER | FOOTNOTE | UNKNOWN
@@ -256,7 +256,7 @@ class ContainedWorkCandidate:
 
     Per newbuildmainspec §48: 'One archive item may contain multiple works.'
     """
-    id: str = field(default_factory=lambda: f"PTCWC_{uuid7().replace(chr(45), '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTCWC_{uuid7()}")
     observation_id: str = ""
     work_candidate: str = ""
     start_locator: str = ""
@@ -289,7 +289,7 @@ class TaskCandidate:
 
     Per newbuildmainspec §43: 'if work.source == NONE: emit FIND_SOURCE'
     """
-    id: str = field(default_factory=lambda: f"PTTASK_{uuid7().replace(chr(45), '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTTASK_{uuid7()}")
     task_type: str = ""  # FIND_SOURCE | RESOLVE_IDENTITY | SEARCH_TRANSLATION | TRANSLATE | RESOLVE_RIGHTS
     target_id: str = ""
     priority: float = 0.0
@@ -303,7 +303,7 @@ class DiscoveryLead:
 
     Per newbuildmainspec §34: 'Every observed item can contain leads.'
     """
-    id: str = field(default_factory=lambda: f"PTDL_{uuid7().replace(chr(45), '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTDL_{uuid7()}")
     source_observation: str = ""
     target_type: str = ""
     candidate_url: str | None = None
@@ -319,7 +319,7 @@ class CrawlPolicy:
 
     Per newbuildmainspec §39: 'Respect site rules/terms.'
     """
-    id: str = field(default_factory=lambda: f"PTCP_{uuid7().replace(chr(45), '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTCP_{uuid7()}")
     provider_id: str = ""
     robots_behavior: str = "respect"
     max_requests_per_second: float = 1.0
@@ -340,7 +340,7 @@ class SourceUtility:
 
     Per newbuildmainspec §40: 'GapValue × ExpectedYield × SourceAuthority × RightsUsability × DownstreamReach / Cost'
     """
-    id: str = field(default_factory=lambda: f"PTSU_{uuid7().replace(chr(45), '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTSU_{uuid7()}")
     provider_id: str = ""
     novelty_yield: float = 0.0
     works_per_request: float = 0.0
@@ -359,7 +359,7 @@ class TextQualityObservation:
 
     Per newbuildmainspec §51: 'Do not put ocr_needs_correction = True as the main ontology.'
     """
-    id: str = field(default_factory=lambda: f"PTTQO_{uuid7().replace(chr(45), '')[:16]}")
+    id: str = field(default_factory=lambda: f"PTTQO_{uuid7()}")
     target_artifact_id: str = ""
     metric: str = ""  # OCR_QUALITY | TEXT_CLEANLINESS | ENCODING_CORRECTNESS
     value: float = 0.0

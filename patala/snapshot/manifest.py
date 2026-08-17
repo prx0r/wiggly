@@ -30,7 +30,7 @@ def create_snapshot_manifest(state_cursor: int, files: list[dict],
     state_cursor, created_at, protocol_version, schemas[], files[], root_digest, signatures }."
     """
     manifest = {
-        "snapshot_id": f"PTSNAP_{uuid7().replace(chr(45), '')[:16]}",
+        "snapshot_id": f"PTSNAP_{uuid7()}",
         "state_cursor": state_cursor,
         "previous_snapshot": None,
         "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),

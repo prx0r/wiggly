@@ -66,7 +66,7 @@ def create_text_anchor(source_artifact_id: str, text: str,
     source_digest = make_digest(text.encode(), "sha256")
 
     return {
-        "id": f"PTANC_{uuid7().replace(chr(45), '')[:16]}",
+        "id": f"PTANC_{uuid7()}",
         "source_artifact_id": source_artifact_id,
         "selectors": selectors,
         "source_digest": source_digest,

@@ -13,10 +13,23 @@ from __future__ import annotations
 
 import hashlib
 import json
-import struct
 import time
-import uuid
 from typing import Any
+
+# Use proper uuid7 library (RFC 9562)
+try:
+    from uuid6 import uuid7 as _uuid7
+except ImportError:
+    # Fallback: generate time-ordered UUID manually
+    import uuid
+    def _uuid7() -> uuid.UUID:
+        ts_ms = int(time.time() * 1000)
+        time_bits = ts_ms & 0xFFFFFFFFFFFF
+        rand_bits = uuid.uuid4().int & 0x3FFFFFFFFFFFFFFFFFFFF
+        int_val = (time_bits << 74) | rand_bits
+        int_val = (int_val & ~(0xF << 76)) | (0x7 << 76)
+        int_val = (int_val & ~(0x3 << 62)) | (0x2 << 62)
+        return uuid.UUID(int=int_val)
 
 
 # --- UUIDv7 (RFC 9562) ---
@@ -25,20 +38,9 @@ def uuid7() -> str:
     """Generate a UUIDv7 — time-ordered, distributed, better index locality than UUIDv4.
 
     RFC 9562 recommends UUIDv7 for new time-ordered UUID use cases.
-    Format: 48-bit timestamp_ms + 74-bit random (with version/variant bits).
+    Returns full 128-bit UUID as string (no truncation).
     """
-    ts_ms = int(time.time() * 1000)
-    # 48 bits timestamp
-    time_bits = ts_ms & 0xFFFFFFFFFFFF
-    # 74 bits random (with version 7 and variant 10)
-    rand_bits = uuid.uuid4().int & 0x3FFFFFFFFFFFFFFFFFFFF  # 74 bits
-    # Construct the 128-bit value
-    int_val = (time_bits << 74) | rand_bits
-    # Set version bits (version 7 = 0111)
-    int_val = (int_val & ~(0xF << 76)) | (0x7 << 76)
-    # Set variant bits (variant 10)
-    int_val = (int_val & ~(0x3 << 62)) | (0x2 << 62)
-    return str(uuid.UUID(int=int_val))
+    return str(_uuid7())
 
 
 def uuid7_batch(count: int) -> list[str]:

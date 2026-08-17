@@ -35,7 +35,7 @@ def record_llm_call(model: str, provider: str, prompt: str, response: str,
     response_digest = make_digest(response.encode(), "sha256")
 
     record = {
-        "id": f"PTLLM_{uuid7().replace(chr(45), '')[:16]}",
+        "id": f"PTLLM_{uuid7()}",
         "model": model,
         "provider": provider,
         "prompt_digest": prompt_digest,

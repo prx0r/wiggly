@@ -47,7 +47,7 @@ def reserve_field(schema_family: str, field_name: str, reason: str = ""):
     cur = conn.cursor()
 
     # Store in schema_registry as a reserved field entry
-    reservation_id = f"PTRSV_{uuid7().replace(chr(45), '')[:16]}"
+    reservation_id = f"PTRSV_{uuid7()}"
     cur.execute(
         '''INSERT INTO schema_registry
         (uri, family, version, schema_dialect, artifact_id, digest_set, published_at, supersedes)

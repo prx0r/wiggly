@@ -29,7 +29,7 @@ def record_derivation(activity_type: str, inputs: list[dict], outputs: list[dict
     extractor: { software_id, version, code_digest }, configuration_artifact,
     model_run_id?, outputs[], started_at, completed_at }
     """
-    activity_id = f"PTDA_{uuid7().replace(chr(45), '')[:16]}"
+    activity_id = f"PTDA_{uuid7()}"
     now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
     conn = store.get_conn()
