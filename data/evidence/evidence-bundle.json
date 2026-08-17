@@ -1,0 +1,19 @@
+{
+  "commit_sha": "85fc39b50e503e40e9e2ab10535f523013063ffe",
+  "clean_install": "OK",
+  "migration_digest": "a0a1447d6206718227792cd142f2f0325c893832c3baef907acdac09cf8d5bdf",
+  "works_count": 996,
+  "assertions_count": 79,
+  "external_identifiers_count": 38,
+  "events_count": 990,
+  "artifacts_count": 1,
+  "raw_observations_count": 1,
+  "state_cursor": 2124,
+  "state_digest": {
+    "algorithm": "sha512",
+    "value": "76554fe617c5a1401a5e0fd8f6fd6e1d3f927c15162a0de68b643b449f20848ffde080669da0e2c00ce0dce7ff728e5f1226be47bad8c189d6974b75058abc6d",
+    "encoding": "hex",
+    "canonicalization": "jcs-rfc8785"
+  },
+  "timestamp": "2026-08-17T12:42:06Z"
+}
