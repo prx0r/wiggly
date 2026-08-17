@@ -1,98 +1,61 @@
 # HANDSOVER-2026-08-17.md — Complete Session Handover
 
-*2026-08-17T16:45:00Z · Full handover for next agent.*
+*2026-08-17T17:15:00Z · Full handover for next agent.*
 
 ---
 
-## 1. WHAT WAS BUILT
+## 1. THE BIG PICTURE
 
-### Core Architecture (patala/) — 57 Python files
+**OpenPāṭala is the public data infrastructure. Pāṭala is everything intelligent that grows on top of it.**
 
-| Module | Purpose | Lines |
-|---|---|---|
-| `hashing.py` | UUIDv7 (rfc library), DigestSet, JCS (rfc8785), 3 hash types | ~280 |
-| `entities.py` | 23 entity models | ~300 |
-| `resolver.py` | Staged resolver R0-R5 | ~340 |
-| `events.py` | Postgres-only canonical event ledger | ~120 |
-| `schema_registry.py` | Immutable, versioned schema registry | ~165 |
-| `completeness.py` | WorkCompleteness materialized projection | ~170 |
-| `work_coverage.py` | WorkCoverage (replacing WorkCompleteness) | ~100 |
-| `ingest.py` | 5-step pipeline (discover→fetch→extract→resolve→store) | ~165 |
-| `api.py` | FastAPI v1 (21 endpoints) | ~500 |
-| `mcp_server.py` | MCP server for agents | ~80 |
-| `tests/conformance.py` | 5 binary test suites | ~280 |
-| `conformance_test.py` | 12-step verification | ~300 |
-| `fingerprint/text.py` | MinHash, shingles | ~120 |
-| `provenance/` | Derivation, LLM repro | ~120 |
-| `signing/checkpoint.py` | Algorithm-tagged signatures | ~80 |
-| `anchor/text.py` | TextAnchor with selectors | ~80 |
-| `snapshot/manifest.py` | SnapshotManifest | ~60 |
-| `reserved.py` | Reserved fields tracking | ~70 |
-| `tei_utils.py` | Shared TEI XML parser | ~120 |
+```
+                    OPENPĀṬALA
+        canonical reality/data infrastructure
+                         │
+       ┌─────────────────┼──────────────────┐
+       │                 │                  │
+       ▼                 ▼                  ▼
+   FACTORY             SCHOLAR          EDUCATION
+ translation         research OS       proof learning
+ evaluation          arguments
+ commentary          questions
+```
 
-### Adapters (11 active)
+**The product:** "What is this work? What other databases know it? Who wrote it? What witnesses, scans, editions, e-texts, translations and scholarship exist? Where can I access them? What is uncertain or disputed? What is still missing?"
 
-| Adapter | Source | Items | Type |
-|---|---|---|---|
-| GRETIL | TEI XML files | 784 | Local |
-| Sanskritree | TypeScript seed | 44 | Local |
-| Archive.org | REST API | 8,550 | API |
-| Crossref | REST API | 7,677 | API |
-| PANDiT | Local JSON | 17,569 | Local |
-| OpenAlex | REST API | 96,498 | API |
-| Darshana | Local JSON | 2,321 | Local |
-| Muktabodha | Zip archives | 499 | Local |
-| ORCID | REST API | — | API |
-| ROR | REST API | — | API |
-| WikiData | SPARQL | — | API |
+---
 
-### Serializers (7)
+## 2. WHAT WAS BUILT
 
-- PROV-O, Web Annotation, DataCite, CIDOC CRM, RO-Crate, C2PA, HuggingFace
+### Core (57 Python files)
+
+| Module | Purpose |
+|---|---|
+| `hashing.py` | UUIDv7, DigestSet, JCS, 3 hash types |
+| `entities.py` | 23 entity models |
+| `resolver.py` | Staged resolver R0-R5 |
+| `events.py` | Postgres-only event ledger |
+| `schema_registry.py` | Immutable schema registry |
+| `work_coverage.py` | Coverage from canonical state |
+| `ingest.py` | 5-step pipeline |
+| `api.py` | FastAPI v1 (21 endpoints) |
+| `tests/conformance.py` | 5 binary test suites |
+| + 8 more modules | fingerprint, provenance, signing, etc. |
+
+### Adapters (11)
+GRETIL, Sanskritree, Archive.org, Crossref, PANDiT, OpenAlex, Darshana, Muktabodha, ORCID, ROR, WikiData
 
 ### Database (34 Postgres tables)
-
 All v2 schema tables created and populated.
 
 ### Research (7 repos cloned)
+STAM, CollateX, OpenPecha, MMM, bibma-metadata, pairwise-light, explorehomer-atlas
 
-| Repo | What | Relevance |
-|---|---|---|
-| STAM | Annotation model | TextAnchor adapter |
-| CollateX | Witness alignment | Edition apparatus |
-| OpenPecha | Text+annotation separation | Base pattern |
-| MMM | TEI→CIDOC-CRM | Ingestion pattern |
-| bibma-metadata | Biblissima ontologies | Reference |
-| pairwise-light | Text-reuse (2.3G) | DERIVED_FROM edges |
-| explorehomer-atlas | Perseus ATLAS | Annotation pattern |
-
-### Documentation (18 files)
-
-README.md, AGENTS.md, DEV-PLAN.md, HANDSOVER-2026-08-17.md, FINAL-TASK.md, PATHWAY.md, PEER-REVIEW-2.md, PEER-REVIEW-3.md, P0-FIX-PLAN.md, NEWBUILDCHECKLIST.md, MASTER.md, NAVIGATION.md, recipes.md, agentic.md, RESEARCH-SUMMARY.md, BUILD-NOTES-2026-08-17-FINAL.md
-
----
-
-## 2. WHAT WAS VERIFIED
-
-### 6 Proofs (all PASS)
-- A: Clean-room bootstrap (34 tables, all deps, app boots)
-- B: Exact observation (artifact bytes retained, SHA-256)
-- C: Identity persistence (works persist across queries)
-- D: Zero-network replay (10 events, digests match)
-- E: Epistemic correction (A retracted, B active, history preserved)
-- F: Merge + split (old IDs resolve, split returns both)
-
-### 5/5 Conformance Suites (all PASS)
-- CORE, REPLAY, RESOLVER, ADAPTER, API
-
-### 12/12 Conformance Tests (all PASS)
-- Historical readability, schema immutability, migration determinism, replay, fixity, JCS, crypto agility, merge, split, rights, unknown schema, projection rebuild
-
-### End-to-End Red Team (hermes-verified)
-- Ingest GRETIL: pipeline ran clean
-- Query works: 5 works served
-- Query bundle: 3 assertions in bundle
-- Conformance: 5/5 PASSED
+### Verified
+- 6 proofs (A-F): PASS
+- 5/5 conformance suites: PASS
+- 12/12 conformance tests: PASS
+- End-to-end red team: 4/4 PASS (hermes-verified)
 
 ---
 
@@ -103,80 +66,93 @@ works: 1099
 assertions: 247
 ext_ids: 108
 events: 2181
-state_cursor: 3315
-state_digest: 6477eadca1de1ab54eb5265e4d1ab929...
 ```
 
 ---
 
-## 4. WHAT TO DO NEXT
+## 4. ADVICE FOR NEXT AGENT
 
-### Phase 1.1 — Integrate Stealable Repos (IMMEDIATE)
+### How to stay organized
 
-The repos are already cloned at `/root/openpatalanew/research/`:
-- `stam/` — annotation model
-- `collatex/` — witness alignment
-- `toolkit-v2/` — OpenPecha text+annotation separation
-- `mmm-data-conversion/` — TEI ingestion pattern
-- `explorehomer-atlas/` — ATLAS annotation pattern
+1. **Read AGENTS.md first** — it has the rules
+2. **Read DEV-PLAN.md** — it has the build order
+3. **Read FINAL-TASK.md** — it has the full roadmap
+4. **Never trust README claims** — only machine-produced evidence counts
+5. **One change = one commit** — don't batch unrelated changes
+6. **Test before claiming done** — run conformance, not just unit tests
 
-Integration plan:
-1. Study STAM API → build TextAnchor adapter
-2. Study CollateX API → build witness alignment module
-3. Study OpenPecha pattern → separate base text from annotations
-4. Study MMM pattern → build TEI → RawObservation transformation
+### How to be efficient
 
-### Phase 1.2 — Self-Filling Source Graph
-- DiscoveryObjective generation
-- NRAH task scheduling
-- TaskCandidate persistence
+1. **Don't rebuild what exists** — check the old project (`/root/openpatalaproject/`) first
+2. **Don't add features before fixing architecture** — Phase 0.6 before Phase 1.0
+3. **Don't trust markdown** — only evidence from `data/evidence/` counts
+4. **Don't skip the anti-cheat rule** — "Nothing written in README counts as evidence"
+5. **Don't work on 10 things at once** — pick one phase, complete it, verify, commit
 
-### Phase 1.3 — Cross-Source Identity Resolution
-- PANDiT ↔ GRETIL ↔ OpenAlex crosswalk tables
-- R1 deterministic crosswalk implementation
+### The build discipline
 
-### Phase 2.0 — Translation Availability Map
-- SearchEvent recording
-- Negative graph
-- Translation frontier from canonical state
+1. **Read the spec** — understand what's required
+2. **Check what exists** — don't rebuild the wheel
+3. **Implement the minimum** — don't overbuild
+4. **Test with real data** — not unit tests on mocks
+5. **Log everything** — hermes runs, content-addressed records
+6. **Verify before claiming done** — conformance tests, not "it works on my machine"
+7. **Commit with evidence** — machine-produced, not markdown claims
+
+### What NOT to do
+
+- Don't add 20 more adapters before fixing the architecture
+- Don't write another 1,500-line architecture document
+- Don't say "26/26" or "12/12" without real verification
+- Don't rebuild things that already exist in the old project
+- Don't skip the anti-cheat rule
+
+### The priority order
+
+```
+NOW: Phase 1.1 (Integrate Stealable Repos)
+├── STAM → TextAnchor adapter
+├── CollateX → witness alignment
+├── OpenPecha → base text + annotation separation
+└── MMM → TEI ingestion pattern
+
+THEN: Phase 1.2 (Self-Filling Source Graph)
+THEN: Phase 1.3 (Cross-Source Identity Resolution)
+THEN: Phase 2.0 (Translation Availability)
+```
 
 ---
 
-## 5. KEY FILES TO READ
+## 5. KEY FILES
 
 | File | What it tells you |
 |---|---|
-| `FINAL-TASK.md` | The full Pāṭala roadmap (17 phases) |
-| `PATHWAY.md` | Strategic positioning + what to build next |
-| `DEV-PLAN.md` | Updated build plan with stealable repos |
-| `RESEARCH-SUMMARY.md` | What we found in cloned repos |
-| `PEER-REVIEW-3.md` | Latest peer review with 25 gates |
-| `HANDSOVER-2026-08-17.md` | This file |
+| `FINAL-TASK.md` | Full roadmap (17 phases) |
+| `PATHWAY.md` | Strategic positioning |
+| `PATALAPATH.md` | Same as PATHWAY.md |
+| `DEV-PLAN.md` | Updated build plan |
+| `RESEARCH-SUMMARY.md` | What we found in repos |
+| `PEER-REVIEW-3.md` | Latest peer review |
 | `AGENTS.md` | Rules for agents |
 | `README.md` | Project overview |
 
 ---
 
-## 6. KEY ARCHITECTURAL DECISIONS
-
-1. **Postgres is the sole canonical ledger** (no JSONL writer)
-2. **Entity IDs are UUIDv7** (full 128-bit, no truncation)
-3. **JCS uses rfc8785 library** (not manual implementation)
-4. **Adapters produce CandidateAssertions** (not Work fields)
-5. **Resolver is DB-backed** (hydratable from Postgres)
-6. **WorkCoverage replaces WorkCompleteness** (computed from canonical state)
-7. **Evidence must be machine-produced** (anti-cheat rule)
-
----
-
-## 7. GIT STATE
+## 6. GIT STATE
 
 ```
 Branch: master
 Remote: https://github.com/prx0r/wiggly
-Commits: 9
-Latest: 959f463
+Commits: 10
+Latest: a01c9ea
 ```
+
+---
+
+## 7. THE ONE RULE
+
+> **Nothing is "real" because a file exists. It is real when an independently defined task,
+> human-grounded gold, and a reproducible, LOGGED gate show it does what its name claims.**
 
 ---
 
