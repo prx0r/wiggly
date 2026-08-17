@@ -47,20 +47,26 @@ All v2 schema tables created and populated.
 works: 1099
 assertions: 247
 ext_ids: 108
-events: 2181
+events: 2186
 ```
+
+### Data Quality Issues
+- **Titles are broken**: Ingestion split titles into individual characters (e.g., "R" "a" "ṅ" "g" "ā" "c" "ā" "r" "y" "a")
+- **Ext IDs are mostly GRETIL**: 108 ext_ids, mostly from GRETIL adapter
+- **Assertions are sparse**: Only 247 assertions for 1099 works
+- **Events are from ingestion**: Most events are from the ingestion process itself
 
 ---
 
 ## 4. THE CORRECT PHASE MAP (from PATALAPATH2 §18)
 
 ```
-Phase 1.1 — GOLD WORK DOSSIERS (NOW)
+Phase 1.1 — GOLD WORK DOSSIERS ✓ (DONE)
   100 representative Works
   Each: /works/{id}, /bundle, /coverage
   Exit: 100 useful dossiers
 
-Phase 1.2 — CROSS-SOURCE IDENTITY
+Phase 1.2 — CROSS-SOURCE IDENTITY (NEXT)
   GRETIL + PANDiT + Sanskritree + Archive + OpenAlex
   ExactIdentifierMatcher, NormalizedTitleMatcher, etc.
 
@@ -83,27 +89,36 @@ Phase 1.8 — WITNESS COLLATION
   CollateX + manuscript intelligence
 ```
 
+---
+
 ## 5. WHAT TO DO NOW
 
-**Phase 1.1: GOLD WORK DOSSIERS**
+### Phase 1.2: CROSS-SOURCE IDENTITY
 
-Pick 100 representative Works:
-- major famous
-- minor obscure
-- multiple spellings
-- multiple authorship claims
-- with/without GRETIL
-- with/without translation
-- commentaries
-- root texts
-- bundled works
+Build cross-source identity resolution for the 100 gold works.
 
-Each must produce an excellent:
-- `/works/{id}` — real metadata from Postgres
-- `/bundle` — full dossier (assertions, ext_ids, editions, translations)
-- `/coverage` — WorkCoverage computed from canonical state
+**Matchers to build:**
+1. ExactIdentifierMatcher — match by GRETIL/PANDiT/OpenAlex IDs
+2. NormalizedTitleMatcher — match by normalized titles
+3. AuthorTitleMatcher — match by author + title combination
+4. TextFingerprintMatcher — match by text fingerprints
+5. CandidateRanker — rank candidates by confidence
+6. ResolutionProposal — propose same/probably same/possibly same/not same/unresolved
 
-Exit condition: 100 useful human-readable + agent-readable dossiers
+**Data sources to integrate:**
+- GRETIL (784 files, already ingested)
+- PANDiT (100 records, already ingested)
+- Sanskritree (44 records, already ingested)
+- Archive.org (50 records, already ingested)
+- OpenAlex (50 records, already ingested)
+
+**Exit condition:**
+For each of the 100 gold works, produce:
+- List of matching records across sources
+- Confidence score for each match
+- Resolution proposal (same/probably same/possibly same/not same/unresolved)
+
+---
 
 ## 6. KEY FILES
 
@@ -117,16 +132,60 @@ Exit condition: 100 useful human-readable + agent-readable dossiers
 | `PEER-REVIEW-3.md` | Latest peer review |
 | `AGENTS.md` | Rules for agents |
 | `README.md` | Project overview |
+| `HANDSOVER-2026-08-17.md` | This file |
+
+---
 
 ## 7. GIT STATE
 
 ```
 Branch: master
 Remote: https://github.com/prx0r/wiggly
-Commits: 11
-Latest: f004b15
+Commits: 12
+Latest: 536f7c4
 ```
+
+---
 
 ## 8. THE ANTI-CHEAT RULE
 
 **"Nothing written in README, commit messages or markdown counts as evidence."**
+
+Evidence must be machine-produced from actual code execution.
+Evidence bundle at `data/evidence/evidence-bundle.json` is the only valid proof.
+
+---
+
+## 9. HOW TO RUN
+
+```bash
+cd /root/openpatalanew
+
+# Run conformance
+PYTHONPATH=. python3 patala/tests/conformance.py
+
+# Run experiments
+PYTHONPATH=. python3 patala/experiments/gold_dossiers.py
+
+# Run API
+python3 -m uvicorn patala.api:app --port 8801
+
+# Check database
+PGPASSWORD=patala psql -U patala -h 127.0.0.1 -d openpatala
+
+# Check hermes logs
+cat data/runs/gold-dossiers.jsonl
+```
+
+---
+
+## 10. WHAT NOT TO DO
+
+- Don't integrate STAM/CollateX/OpenPeka yet (Phase 1.7+)
+- Don't build self-filling discovery yet (Phase 1.6)
+- Don't expand providers yet (Phase 1.5)
+- Don't build annotation interop yet (Phase 1.7)
+- Don't build witness collation yet (Phase 1.8)
+- Don't add 20 more adapters before fixing the core
+- Don't rebuild what exists in the old project
+- Don't trust markdown claims — only machine evidence counts
