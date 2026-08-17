@@ -103,9 +103,9 @@ def canonical_jcs_hash(obj: Any, algorithm: str = "sha512") -> dict:
     Per newbuild1 §4B: "JSON has multiple byte representations of the same object.
     Use RFC 8785 JCS for deterministic hashing."
     """
-    canonical = jcs_canonicalize(obj)
-    data = canonical.encode("utf-8")
-    return make_digest(data, algorithm, canonicalization="jcs-rfc8785")
+    import rfc8785
+    canonical = rfc8785.dumps(obj)  # Returns bytes
+    return make_digest(canonical, algorithm, canonicalization="jcs-rfc8785")
 
 
 def semantic_fingerprint(text: str, algorithm: str = "sha256") -> dict:
