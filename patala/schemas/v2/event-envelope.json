@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/event-envelope.json",
+  "title": "EventEnvelope — immutable semantic event (append-only, never mutated)",
+  "description": "Per newbuild1 §8-9: 'The event is the real durable semantic record. Do not mutate events.' Append-only. Current state is computed from event history.",
+  "type": "object",
+  "required": ["event_id", "event_type", "schema_uri", "recorded_at", "payload", "payload_digest"],
+  "properties": {
+    "event_id": { "type": "string", "pattern": "^PTEVT_[0-9a-f-]+$" },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "EntityCreated", "EntityMerged", "EntitySplit", "EntityRetired",
+        "RawObservationRecorded", "ArtifactCaptured",
+        "AssertionProposed", "AssertionAccepted", "AssertionRejected", "AssertionRetracted",
+        "ExternalIdentifierLinked",
+        "RightsAssessmentRecorded",
+        "TranslationLocated", "TranslationGenerated",
+        "ScholarAttestationRecorded",
+        "SchemaPublished", "ProjectionPublished",
+        "SearchEventRecorded"
+      ]
+    },
+    "stream_id": { "type": ["string", "null"], "description": "Optional stream for ordering" },
+    "entity_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "schema_uri": { "type": "string", "format": "uri", "description": "URI of the schema under which this event was written" },
+    "actor_id": { "type": ["string", "null"] },
+    "occurred_at": { "type": ["string", "null"], "format": "date-time", "description": "When the real-world event supposedly happened" },
+    "observed_at": { "type": ["string", "null"], "format": "date-time", "description": "When Pāṭala observed/learned it" },
+    "recorded_at": { "type": "string", "format": "date-time", "description": "When Pāṭala committed it (always set)" },
+    "payload": { "type": "object", "description": "Event-type-specific data" },
+    "payload_digest": { "type": "object", "description": "DigestSet of the serialized payload" },
+    "derivation_refs": { "type": "array", "items": { "type": "string" }, "description": "Event IDs this event was derived from" },
+    "run_id": { "type": ["string", "null"] }
+  }
+}

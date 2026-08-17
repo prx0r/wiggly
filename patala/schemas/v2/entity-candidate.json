@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/entity-candidate.json",
+  "title": "EntityCandidate — a potential entity deduced from observations",
+  "type": "object",
+  "required": ["id", "candidate_type", "provider_id", "assertion_ids"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTCND_" },
+    "candidate_type": {
+      "type": "string",
+      "enum": ["WORK", "PERSON", "EDITION", "WITNESS", "ETEXT", "TRANSLATION", "INSTITUTION"]
+    },
+    "provider_id": { "type": "string", "pattern": "^PTPRV_" },
+    "external_resource_id": { "type": ["string", "null"] },
+    "assertion_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "normalized_fingerprint": { "type": ["string", "null"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

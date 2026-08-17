@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/derivation-activity.json",
+  "title": "DerivationActivity — how an artifact was produced from inputs",
+  "description": "Per newbuild1 §40-41: PROV-O pattern. Every derivation can resolve to exact input versions and implementation provenance.",
+  "type": "object",
+  "required": ["id", "activity_type", "inputs", "outputs", "started_at", "completed_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTDA_" },
+    "activity_type": { "type": "string", "enum": ["EXTRACTION", "TRANSLATION", "NORMALIZATION", "MERGE", "SPLIT", "MANUAL"] },
+    "inputs": { "type": "array", "items": { "type": "object" }, "minItems": 1 },
+    "outputs": { "type": "array", "items": { "type": "object" }, "minItems": 1 },
+    "actor_id": { "type": ["string", "null"] },
+    "software": { "type": ["object", "null"], "description": "{name, version, code_digest}" },
+    "configuration": { "type": ["object", "null"] },
+    "started_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "run_id": { "type": ["string", "null"] }
+  }
+}

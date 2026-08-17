@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/actor.json",
+  "title": "Actor — a person, software agent, or organization that performs actions",
+  "type": "object",
+  "required": ["id", "actor_type"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTACT_" },
+    "actor_type": { "type": "string", "enum": ["PERSON", "SOFTWARE_AGENT", "ORGANIZATION"] },
+    "name": { "type": "string" },
+    "external_ids": { "type": "array", "items": { "type": "object" } }
+  }
+}

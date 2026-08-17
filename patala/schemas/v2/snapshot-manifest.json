@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/snapshot-manifest.json",
+  "title": "SnapshotManifest — immutable manifest for a Pāṭala data release",
+  "description": "Per newbuild1 §27-28: 'Every snapshot gets a manifest. Snapshots should be citable via DataCite DOIs.'",
+  "type": "object",
+  "required": ["snapshot_id", "state_cursor", "created_at", "protocol_version", "files", "root_digest"],
+  "properties": {
+    "snapshot_id": { "type": "string", "pattern": "^PTSNAP_[0-9a-f-]+$" },
+    "state_cursor": { "type": "integer", "description": "Event cursor this snapshot was built from" },
+    "previous_snapshot": { "type": ["string", "null"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "protocol_version": { "type": "string" },
+    "schema_registry_digest": { "type": ["string", "null"] },
+    "ledger_checkpoint": { "type": ["string", "null"] },
+    "schemas": {
+      "type": "array",
+      "items": { "type": "string", "description": "Schema URIs included in this snapshot" }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "rows", "digests"],
+        "properties": {
+          "path": { "type": "string", "description": "e.g. works.parquet" },
+          "rows": { "type": "integer", "minimum": 0 },
+          "bytes": { "type": "integer", "minimum": 0 },
+          "digests": { "type": "object", "description": "DigestSet for the file" }
+        }
+      }
+    },
+    "root_digest": { "type": "object", "description": "DigestSet of the entire manifest" },
+    "signatures": { "type": "array", "items": { "type": "object" } }
+  }
+}

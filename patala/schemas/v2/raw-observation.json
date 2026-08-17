@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/raw-observation.json",
+  "title": "RawObservation — what Pāṭala observed from a source at a point in time",
+  "description": "Per newbuildmainspec §7: 'At time T, Pāṭala observed source X returning bytes hash H.'",
+  "type": "object",
+  "required": ["id", "provider_id", "endpoint_id", "requested_uri", "observed_at", "payload_artifact_id", "rights_assessment_id", "acquisition_method"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTOBS_" },
+    "provider_id": { "type": "string", "pattern": "^PTPRV_" },
+    "endpoint_id": { "type": "string", "pattern": "^PTEP_" },
+    "source_resource_id": { "type": ["string", "null"] },
+    "requested_uri": { "type": "string", "format": "uri" },
+    "resolved_uri": { "type": ["string", "null"], "format": "uri" },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "response_metadata_artifact": { "type": ["string", "null"], "description": "Artifact ID for response headers/metadata" },
+    "payload_artifact_id": { "type": "string", "pattern": "^PTART_" },
+    "rights_assessment_id": { "type": "string", "pattern": "^PTRTS_" },
+    "run_id": { "type": ["string", "null"] },
+    "source_state": {
+      "type": "object",
+      "properties": {
+        "etag": { "type": ["string", "null"] },
+        "last_modified": { "type": ["string", "null"] }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": ["FETCHED", "PARSED", "FAILED", "WITHDRAWN"]
+    }
+  }
+}

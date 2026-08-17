@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/schema-definition.json",
+  "title": "SchemaDefinition — immutable schema record (append-only registry)",
+  "description": "Per newbuild1 §12-13: 'Published schemas are immutable. Once a schema has written one permanent record, it is frozen.'",
+  "type": "object",
+  "required": ["uri", "family", "version", "schema_dialect", "digest_set", "published_at"],
+  "properties": {
+    "uri": { "type": "string", "format": "uri", "description": "e.g. https://patala.org/schemas/v2/artifact.json" },
+    "family": { "type": "string", "description": "e.g. core/artifact, source/provider, atlas/work" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$", "description": "SemVer: PATCH (docs), MINOR (additive), MAJOR (breaking)" },
+    "schema_dialect": { "type": "string", "default": "https://json-schema.org/draft/2020-12/schema" },
+    "artifact_id": { "type": ["string", "null"], "description": "Artifact containing the schema file" },
+    "digest_set": { "type": "object", "description": "DigestSet of the schema file bytes" },
+    "published_at": { "type": "string", "format": "date-time" },
+    "supersedes": { "type": ["string", "null"], "description": "URI of the schema this one supersedes" }
+  }
+}

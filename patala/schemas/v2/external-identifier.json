@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/external-identifier.json",
+  "title": "ExternalIdentifier — a cross-reference to an external system",
+  "type": "object",
+  "required": ["id", "entity_id", "scheme", "value"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTEXT_" },
+    "entity_id": { "type": "string" },
+    "scheme": {
+      "type": "string",
+      "enum": [
+        "PANDIT", "GRETIL", "FOJIN", "DARSHANA", "DOI", "ORCID", "ROR",
+        "ARCHIVE_ORG", "IIIF", "CTS", "WIKIDATA", "OTHER"
+      ]
+    },
+    "value": { "type": "string" },
+    "source_observation_id": { "type": ["string", "null"] },
+    "relation_confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/artifact.json",
+  "title": "Artifact — immutable bytes with content-addressed identity",
+  "description": "Per newbuild1 §2-3: Artifact ID is opaque UUIDv7. Digests are algorithm-tagged (crypto agility). Never encode content hash into the ID.",
+  "type": "object",
+  "required": ["id", "digests", "media_type", "byte_length"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTART_[0-9a-f-]+$", "description": "Opaque UUIDv7 with prefix. Never content-hash." },
+    "digests": { "$ref": "#/$defs/DigestSet" },
+    "media_type": { "type": "string" },
+    "byte_length": { "type": "integer", "minimum": 0 },
+    "storage_uri": { "type": "string" },
+    "compression": { "type": ["string", "null"] },
+    "encoding": { "type": ["string", "null"] },
+    "rights_assessment_ids": { "type": "array", "items": { "type": "string" } },
+    "availability_state": {
+      "type": "string",
+      "enum": ["PRESENT", "WITHDRAWN", "PURGED"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "Digest": {
+      "type": "object",
+      "required": ["algorithm", "value", "encoding"],
+      "properties": {
+        "algorithm": { "type": "string", "enum": ["sha256", "sha512", "blake2b-512"] },
+        "value": { "type": "string", "description": "Hex-encoded digest" },
+        "encoding": { "type": "string", "enum": ["hex"] },
+        "canonicalization": { "type": ["string", "null"], "description": "null for raw bytes, 'jcs-rfc8785' for canonical JSON, 'sanskrit-normalized-v3' for text" }
+      }
+    },
+    "DigestSet": {
+      "type": "object",
+      "required": ["digests"],
+      "properties": {
+        "digests": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/Digest" } }
+      }
+    }
+  }
+}

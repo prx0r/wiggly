@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/review-event.json",
+  "title": "ReviewEvent — a scholar or agent reviewed an assertion or entity",
+  "type": "object",
+  "required": ["id", "reviewer_id", "target_id", "decision", "recorded_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTRVW_" },
+    "reviewer_id": { "type": "string" },
+    "target_id": { "type": "string", "description": "Entity or assertion ID being reviewed" },
+    "target_type": { "type": "string", "enum": ["ASSERTION", "ENTITY", "TRANSLATION", "RESOLUTION"] },
+    "decision": { "type": "string", "enum": ["ACCEPTED", "REJECTED", "CONTESTED", "NEEDS_REVIEW"] },
+    "reason": { "type": ["string", "null"] },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "recorded_at": { "type": "string", "format": "date-time" }
+  }
+}

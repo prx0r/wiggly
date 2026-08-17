@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/assertion.json",
+  "title": "Assertion — a resolved claim about an entity",
+  "description": "Per newbuildmainspec §12: Assertions are the real metadata graph.",
+  "type": "object",
+  "required": ["id", "subject_id", "predicate_uri", "epistemic_mode", "evidence_use_ids", "asserted_by", "recorded_at", "lifecycle", "created_from_event"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTASS_" },
+    "subject_id": { "type": "string" },
+    "predicate_uri": { "type": "string", "format": "uri", "description": "Versioned predicate URI, not a plain string" },
+    "object_id": { "type": ["string", "null"] },
+    "literal": { "type": ["string", "null"] },
+    "epistemic_mode": { "type": "string", "description": "How this assertion was derived (observed, inferred, asserted)" },
+    "evidence_use_ids": { "type": "array", "items": { "type": "string" } },
+    "asserted_by": {
+      "type": "string",
+      "enum": ["PROVIDER", "SCHOLAR", "PATALA_RESOLVER", "MODEL", "HUMAN"]
+    },
+    "actor_ref": { "type": ["string", "null"] },
+    "asserted_at": { "type": ["string", "null"], "format": "date-time", "description": "When the real-world assertion was made" },
+    "recorded_at": { "type": "string", "format": "date-time", "description": "When Pāṭala committed it" },
+    "lifecycle": {
+      "type": "string",
+      "enum": ["PROPOSED", "ACTIVE", "CONTESTED", "RETRACTED", "SUPERSEDED"]
+    },
+    "created_from_event": { "type": "string", "description": "Event ID that created this assertion" },
+    "supersedes": { "type": ["string", "null"] }
+  }
+}

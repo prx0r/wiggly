@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/ledger-checkpoint.json",
+  "title": "LedgerCheckpoint — Merkle tree root over event batches",
+  "description": "Per newbuild1 §34-35: 'Many events → one independently verifiable root. Sign checkpoints, not everything.'",
+  "type": "object",
+  "required": ["id", "first_event_cursor", "last_event_cursor", "event_count", "merkle", "generated_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTCHK_[0-9a-f-]+$" },
+    "previous_checkpoint_id": { "type": ["string", "null"] },
+    "first_event_cursor": { "type": "integer", "minimum": 0 },
+    "last_event_cursor": { "type": "integer", "minimum": 0 },
+    "event_count": { "type": "integer", "minimum": 1 },
+    "merkle": {
+      "type": "object",
+      "required": ["hash_algorithm", "canonicalization", "root"],
+      "properties": {
+        "hash_algorithm": { "type": "string", "enum": ["sha256", "sha512"] },
+        "canonicalization": { "type": "string", "enum": ["jcs-rfc8785"] },
+        "root": { "type": "string", "description": "Hex-encoded Merkle root hash" }
+      }
+    },
+    "schema_registry_digest": { "type": ["string", "null"] },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["algorithm", "key_id", "signature", "signed_digest", "signed_at"],
+        "properties": {
+          "algorithm": { "type": "string", "description": "Algorithm-tagged (ed25519, etc.) — don't bake one algorithm forever" },
+          "key_id": { "type": "string" },
+          "signature": { "type": "string" },
+          "signed_digest": { "type": "string" },
+          "signed_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}

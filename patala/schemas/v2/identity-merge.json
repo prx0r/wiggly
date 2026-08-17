@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/identity-merge.json",
+  "title": "EntityMerge — record that two entities were merged into one",
+  "description": "Per newbuild1 §24: 'Old ID continues resolving. 301 redirect.'",
+  "type": "object",
+  "required": ["id", "from_ids", "into_id", "evidence", "event_id"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTMRG_" },
+    "from_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "into_id": { "type": "string" },
+    "evidence": { "type": "string" },
+    "event_id": { "type": "string" },
+    "performed_by": { "type": ["string", "null"] }
+  }
+}

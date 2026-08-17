@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/source-endpoint.json",
+  "title": "SourceEndpoint — a specific endpoint of a provider (API, sitemap, etc.)",
+  "type": "object",
+  "required": ["id", "provider_id", "url", "endpoint_type", "adapter"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTEP_" },
+    "provider_id": { "type": "string", "pattern": "^PTPRV_" },
+    "url": { "type": "string", "format": "uri" },
+    "endpoint_type": {
+      "type": "string",
+      "enum": ["REST_API", "GRAPHQL", "OAI_PMH", "IIIF", "SITEMAP", "RSS", "HTML", "GITHUB", "GIT", "STATIC_DUMP", "SEARCH", "OBJECT_STORE", "UNKNOWN"]
+    },
+    "adapter": { "type": "string" },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["DISCOVER", "METADATA", "CONTENT", "SEARCH", "CHANGES"]
+      }
+    },
+    "crawl_policy_id": { "type": ["string", "null"] },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "DEGRADED", "PAUSED", "RETIRED"]
+    },
+    "last_checked_at": { "type": ["string", "null"], "format": "date-time" }
+  }
+}

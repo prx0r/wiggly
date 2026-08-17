@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/rights-policy.json",
+  "title": "RightsPolicy — what you can do with a resource",
+  "type": "object",
+  "required": ["id", "discovery", "metadata_fetch", "content_fetch"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTRTS_" },
+    "provider_id": { "type": ["string", "null"] },
+    "resource_id": { "type": ["string", "null"] },
+    "license_uri": { "type": ["string", "null"], "format": "uri" },
+    "copyright_status": { "type": ["string", "null"] },
+    "discovery": { "type": "string", "enum": ["ALLOWED", "UNKNOWN", "BLOCKED"] },
+    "metadata_fetch": { "type": "string", "enum": ["ALLOWED", "UNKNOWN", "BLOCKED"] },
+    "content_fetch": { "type": "string", "enum": ["ALLOWED", "UNKNOWN", "BLOCKED"] },
+    "compute": { "type": "string", "enum": ["ALLOWED", "UNKNOWN", "BLOCKED"] },
+    "derivative_generation": { "type": "string", "enum": ["ALLOWED", "UNKNOWN", "BLOCKED"] },
+    "redistribution": { "type": "string", "enum": ["ALLOWED", "UNKNOWN", "BLOCKED"] },
+    "training": { "type": "string", "enum": ["ALLOWED", "UNKNOWN", "BLOCKED"] },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "reviewed_by": { "type": ["string", "null"] },
+    "reviewed_at": { "type": ["string", "null"], "format": "date-time" }
+  }
+}

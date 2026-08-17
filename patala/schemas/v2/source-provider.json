@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/source-provider.json",
+  "title": "SourceProvider — a data source (PANDiT, GRETIL, Archive.org, etc.)",
+  "type": "object",
+  "required": ["id", "slug", "name", "provider_type", "status"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTPRV_" },
+    "slug": { "type": "string" },
+    "name": { "type": "string" },
+    "homepage": { "type": "string", "format": "uri" },
+    "provider_type": {
+      "type": "string",
+      "enum": ["REPOSITORY", "LIBRARY", "CATALOG", "SCHOLAR_PROJECT", "AGGREGATOR", "JOURNAL", "PERSONAL_SITE", "GOVERNMENT", "GITHUB", "DATASET", "UNKNOWN"]
+    },
+    "institution_id": { "type": ["string", "null"] },
+    "trust_notes": { "type": "string" },
+    "default_rights_policy_id": { "type": ["string", "null"] },
+    "status": {
+      "type": "string",
+      "enum": ["ACTIVE", "DEGRADED", "PAUSED", "RETIRED"]
+    },
+    "discovered_at": { "type": "string", "format": "date-time" },
+    "last_checked_at": { "type": ["string", "null"], "format": "date-time" }
+  }
+}

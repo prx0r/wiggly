@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/evidence-use.json",
+  "title": "EvidenceUse — how an evidence entity supports an assertion",
+  "description": "Per newbuild1 §68: 'This is much stronger than putting evidence_refs[] everywhere with undefined meaning.'",
+  "type": "object",
+  "required": ["id", "assertion_id", "evidence_entity_id", "role", "created_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTEVD_" },
+    "assertion_id": { "type": "string", "pattern": "^PTASS_" },
+    "evidence_entity_id": { "type": "string" },
+    "role": { "type": "string", "enum": ["SUPPORTS", "CONTRADICTS", "QUALIFIES", "EXAMPLE", "PRIMARY_SOURCE"] },
+    "anchor_id": { "type": ["string", "null"] },
+    "interpretation_note": { "type": ["string", "null"] },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}

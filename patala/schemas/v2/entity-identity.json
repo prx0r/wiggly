@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/entity-identity.json",
+  "title": "EntityIdentity — opaque, stable identity for any Pāṭala entity",
+  "description": "Per newbuild1 §2: 'Entity identity is opaque and independent of content.' UUIDv7 with human prefix. Never encode title, source, date, version, or SHA into the identity.",
+  "type": "object",
+  "required": ["id", "entity_class", "lifecycle"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PT[A-Z]+_[0-9a-f-]+$", "description": "UUIDv7 with prefix (PTW_, PTP_, PTED_, PTMS_, PTTR_, PTOBS_, PTEVT_)" },
+    "entity_class": {
+      "type": "string",
+      "enum": ["WORK", "PERSON", "INSTITUTION", "EDITION", "WITNESS", "SURROGATE", "ETEXT", "TRANSLATION", "PASSAGE", "ASSERTION", "OBSERVATION"]
+    },
+    "created_event_id": { "type": ["string", "null"] },
+    "lifecycle": {
+      "type": "string",
+      "enum": ["ACTIVE", "MERGED", "SPLIT", "RETIRED", "WITHDRAWN"]
+    }
+  }
+}

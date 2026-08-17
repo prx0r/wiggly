@@ -1,0 +1,24 @@
+# GRETIL — Göttingen Register of Electronic Texts in Indian Languages
+# Source: https://github.com/INDOLOGY/GRETIL-mirror
+
+provider: gretil
+
+rights:
+  metadata: allowed
+  content: record-specific   # CC BY-NC-SA 4.0
+
+capabilities:
+  - discover
+  - metadata
+  - content
+
+identity_fields:
+  - title
+  - author
+  - filename
+
+adapter_class: GretilAdapter
+
+fixtures:
+  - fixtures/sample_tei.xml
+  - fixtures/sample_metadata.json

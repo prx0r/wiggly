@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/identity-split.json",
+  "title": "EntitySplit — record that one entity was split into multiple",
+  "description": "Per newbuild1 §29: 'Old ID never silently resolves to only one child. 409 ENTITY_SPLIT.'",
+  "type": "object",
+  "required": ["id", "old_id", "new_ids", "allocation_evidence", "event_id"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTSPL_" },
+    "old_id": { "type": "string" },
+    "new_ids": { "type": "array", "items": { "type": "string" }, "minItems": 2 },
+    "allocation_evidence": { "type": "string" },
+    "unresolved_members": { "type": "array", "items": { "type": "string" } },
+    "event_id": { "type": "string" }
+  }
+}

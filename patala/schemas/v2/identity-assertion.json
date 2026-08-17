@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://patala.org/schemas/v2/identity-assertion.json",
+  "title": "IdentityAssertion — a claim that two records refer to the same thing",
+  "type": "object",
+  "required": ["id", "subject_id", "object_id", "relation", "evidence_refs", "asserted_by"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PTIDN_" },
+    "subject_id": { "type": "string" },
+    "object_id": { "type": "string" },
+    "relation": {
+      "type": "string",
+      "enum": [
+        "EXACT_IDENTITY", "PROBABLE_IDENTITY", "POSSIBLE_IDENTITY",
+        "SAME_WORK", "EDITION_OF", "WITNESS_OF", "SURROGATE_OF",
+        "TRANSCRIPTION_OF", "TRANSLATION_OF", "PART_OF"
+      ]
+    },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "asserted_by": { "type": "string" },
+    "confidence": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+    "review_state": {
+      "type": "string",
+      "enum": ["PENDING", "ACCEPTED", "REJECTED", "CONTESTED"]
+    },
+    "created_at": { "type": "string", "format": "date-time" }
+  }
+}
