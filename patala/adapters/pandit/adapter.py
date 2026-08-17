@@ -124,19 +124,20 @@ class PanditAdapter(SourceAdapter):
             })
 
         # Alternative names
-        for aka in meta.get("aka", []):
-            if aka:
-                assertions.append({
-                    "id": f"PTCAS_pandit_{resource_id}_aka_{hash(aka) % 10000}",
-                    "observation_id": observation.get("id", ""),
-                    "subject_candidate_id": f"PTCND_pandit_{resource_id}",
-                    "predicate": "TITLE",
-                    "value": aka,
-                    "extraction_method": "STRUCTURED_FIELD",
-                    "extractor_version": self.adapter_version,
-                    "confidence": 0.8,
-                    "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-                })
+        aka = meta.get("aka", "")
+        if aka:
+            # aka is a string, not a list
+            assertions.append({
+                "id": f"PTCAS_pandit_{resource_id}_aka_{hash(aka) % 10000}",
+                "observation_id": observation.get("id", ""),
+                "subject_candidate_id": f"PTCND_pandit_{resource_id}",
+                "predicate": "TITLE",
+                "value": aka,
+                "extraction_method": "STRUCTURED_FIELD",
+                "extractor_version": self.adapter_version,
+                "confidence": 0.8,
+                "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+            })
 
         # Entity candidate
         candidate_type = "WORK" if entity_type == "work" else "PERSON"
