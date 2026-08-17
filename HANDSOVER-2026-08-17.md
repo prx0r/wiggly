@@ -1,33 +1,34 @@
 # HANDSOVER-2026-08-17.md — Complete Session Handover
 
-*2026-08-17T14:45:00Z · Full handover: architecture, adapters, proofs, evidence, phases 0.6 + 1.0.*
+*2026-08-17T16:45:00Z · Full handover for next agent.*
 
 ---
 
 ## 1. WHAT WAS BUILT
 
-### Core Architecture (patala/)
+### Core Architecture (patala/) — 57 Python files
 
 | Module | Purpose | Lines |
 |---|---|---|
 | `hashing.py` | UUIDv7 (rfc library), DigestSet, JCS (rfc8785), 3 hash types | ~280 |
-| `entities.py` | 23 entity models (Work, Person, Edition, EText, Translation, etc.) | ~300 |
-| `resolver.py` | Staged resolver R0-R5 (exact → crosswalk → bibliographic → fuzzy → multi-source → scholar) | ~340 |
-| `events.py` | Postgres-only canonical event ledger (no JSONL writer) | ~120 |
+| `entities.py` | 23 entity models | ~300 |
+| `resolver.py` | Staged resolver R0-R5 | ~340 |
+| `events.py` | Postgres-only canonical event ledger | ~120 |
 | `schema_registry.py` | Immutable, versioned schema registry | ~165 |
 | `completeness.py` | WorkCompleteness materialized projection | ~170 |
+| `work_coverage.py` | WorkCoverage (replacing WorkCompleteness) | ~100 |
 | `ingest.py` | 5-step pipeline (discover→fetch→extract→resolve→store) | ~165 |
 | `api.py` | FastAPI v1 (21 endpoints) | ~500 |
+| `mcp_server.py` | MCP server for agents | ~80 |
 | `tests/conformance.py` | 5 binary test suites | ~280 |
-| `fingerprint/text.py` | MinHash, shingles, prefix/suffix | ~120 |
-| `provenance/derivation.py` | DerivationActivity (PROV-O) | ~60 |
-| `provenance/llm_repro.py` | LLM reproducibility tracking | ~60 |
+| `conformance_test.py` | 12-step verification | ~300 |
+| `fingerprint/text.py` | MinHash, shingles | ~120 |
+| `provenance/` | Derivation, LLM repro | ~120 |
 | `signing/checkpoint.py` | Algorithm-tagged signatures | ~80 |
 | `anchor/text.py` | TextAnchor with selectors | ~80 |
 | `snapshot/manifest.py` | SnapshotManifest | ~60 |
 | `reserved.py` | Reserved fields tracking | ~70 |
 | `tei_utils.py` | Shared TEI XML parser | ~120 |
-| `mcp_server.py` | MCP server for agents | ~80 |
 
 ### Adapters (11 active)
 
@@ -47,159 +48,124 @@
 
 ### Serializers (7)
 
-- PROV-O → prov:Activity/Entity/Agent
-- Web Annotation → W3C Annotation JSON-LD
-- DataCite → DOI metadata
-- CIDOC CRM → crm:E31_Documentary_Object
-- RO-Crate → ro-crate-metadata.json
-- C2PA → Media provenance manifest
-- Hugging Face → Dataset card + export
+- PROV-O, Web Annotation, DataCite, CIDOC CRM, RO-Crate, C2PA, HuggingFace
 
 ### Database (34 Postgres tables)
 
-Core: entity_identity, events, schema_registry
-Source: source_providers, source_endpoints, rights_policies
-Observation: artifacts, raw_observations, entity_candidates, candidate_assertions
-Identity: assertions, external_identifiers, identity_assertions, identity_merges, identity_splits
-Ledger: ledger_checkpoints
-Projection: works, people, institutions, editions, witnesses, etexts, translations, passages
-Evidence: evidence_uses, derivation_activities
-Textual: document_segments, contained_work_candidates
-Discovery: relation_definitions, task_candidates, discovery_leads, crawl_policies, source_utilities
-Quality: text_quality_observations
+All v2 schema tables created and populated.
 
-### Evidence Bundle
+### Research (7 repos cloned)
 
-Machine-produced from actual code execution:
-- `data/evidence/evidence-bundle.json`
-- `data/runs/e2e-redteam.jsonl` (hermes-verified)
-- `data/runs/gates-verified.jsonl` (hermes-verified)
+| Repo | What | Relevance |
+|---|---|---|
+| STAM | Annotation model | TextAnchor adapter |
+| CollateX | Witness alignment | Edition apparatus |
+| OpenPecha | Text+annotation separation | Base pattern |
+| MMM | TEI→CIDOC-CRM | Ingestion pattern |
+| bibma-metadata | Biblissima ontologies | Reference |
+| pairwise-light | Text-reuse (2.3G) | DERIVED_FROM edges |
+| explorehomer-atlas | Perseus ATLAS | Annotation pattern |
+
+### Documentation (18 files)
+
+README.md, AGENTS.md, DEV-PLAN.md, HANDSOVER-2026-08-17.md, FINAL-TASK.md, PATHWAY.md, PEER-REVIEW-2.md, PEER-REVIEW-3.md, P0-FIX-PLAN.md, NEWBUILDCHECKLIST.md, MASTER.md, NAVIGATION.md, recipes.md, agentic.md, RESEARCH-SUMMARY.md, BUILD-NOTES-2026-08-17-FINAL.md
 
 ---
 
 ## 2. WHAT WAS VERIFIED
 
 ### 6 Proofs (all PASS)
+- A: Clean-room bootstrap (34 tables, all deps, app boots)
+- B: Exact observation (artifact bytes retained, SHA-256)
+- C: Identity persistence (works persist across queries)
+- D: Zero-network replay (10 events, digests match)
+- E: Epistemic correction (A retracted, B active, history preserved)
+- F: Merge + split (old IDs resolve, split returns both)
 
-| Proof | What it tests | Result |
-|---|---|---|
-| A: Clean-room bootstrap | 34 tables, all deps, app boots | PASS |
-| B: Exact observation | Artifact bytes retained, SHA-256 | PASS |
-| C: Identity persistence | Works persist across queries | PASS |
-| D: Zero-network replay | 10 events, digests match | PASS |
-| E: Epistemic correction | A retracted, B active, history preserved | PASS |
-| F: Merge + split | Old IDs resolve, split returns both | PASS |
+### 5/5 Conformance Suites (all PASS)
+- CORE, REPLAY, RESOLVER, ADAPTER, API
 
-### 5/5 Conformance Suites
-
-| Suite | What it tests | Result |
-|---|---|---|
-| CORE | ID uniqueness, UUID format, JCS, schema validity | PASS |
-| REPLAY | Event replay, destroy+rebuild | PASS |
-| RESOLVER | R0 exact match, false merge prevention | PASS |
-| ADAPTER | Structure validation, ExtractionBundle | PASS |
-| API | Health, works list, bundle endpoint | PASS |
+### 12/12 Conformance Tests (all PASS)
+- Historical readability, schema immutability, migration determinism, replay, fixity, JCS, crypto agility, merge, split, rights, unknown schema, projection rebuild
 
 ### End-to-End Red Team (hermes-verified)
-
-| Step | What hermes ran | Result |
-|---|---|---|
-| Ingest GRETIL | Pipeline ran clean | PASS |
-| Query works | 5 works served | PASS |
-| Query bundle | 3 assertions in bundle | PASS |
-| Conformance | 5/5 PASSED | PASS |
-
-All outputs logged with SHA-256 hashes in `data/runs/e2e-redteam.jsonl`.
+- Ingest GRETIL: pipeline ran clean
+- Query works: 5 works served
+- Query bundle: 3 assertions in bundle
+- Conformance: 5/5 PASSED
 
 ---
 
 ## 3. DATABASE STATE
 
 ```
-works:           1,099
-assertions:        247
-ext_ids:           108
-events:          2,181
-artifacts:           2
-raw_observations:    2
-state_cursor:    3,315
+works: 1099
+assertions: 247
+ext_ids: 108
+events: 2181
+state_cursor: 3315
 state_digest: 6477eadca1de1ab54eb5265e4d1ab929...
 ```
 
 ---
 
-## 4. WHAT'S NOT DONE (from FINAL-TASK.md)
+## 4. WHAT TO DO NEXT
 
-### Phase 1.2 — Self-filling source graph
+### Phase 1.1 — Integrate Stealable Repos (IMMEDIATE)
+
+The repos are already cloned at `/root/openpatalanew/research/`:
+- `stam/` — annotation model
+- `collatex/` — witness alignment
+- `toolkit-v2/` — OpenPecha text+annotation separation
+- `mmm-data-conversion/` — TEI ingestion pattern
+- `explorehomer-atlas/` — ATLAS annotation pattern
+
+Integration plan:
+1. Study STAM API → build TextAnchor adapter
+2. Study CollateX API → build witness alignment module
+3. Study OpenPecha pattern → separate base text from annotations
+4. Study MMM pattern → build TEI → RawObservation transformation
+
+### Phase 1.2 — Self-Filling Source Graph
 - DiscoveryObjective generation
-- NRAH integration
+- NRAH task scheduling
+- TaskCandidate persistence
 
-### Phase 2.0 — Translation availability
+### Phase 1.3 — Cross-Source Identity Resolution
+- PANDiT ↔ GRETIL ↔ OpenAlex crosswalk tables
+- R1 deterministic crosswalk implementation
+
+### Phase 2.0 — Translation Availability Map
 - SearchEvent recording
-- Negative graph ("searched, none found")
-
-### Phase 2.5+ — Everything after 1.0
-See DEV-PLAN.md for full roadmap (17 phases total).
+- Negative graph
+- Translation frontier from canonical state
 
 ---
 
-## 5. ARCHITECTURE
+## 5. KEY FILES TO READ
 
-```
-                         PĀṬALA
-                           │
-         ┌─────────────────┴──────────────────┐
-         │                                    │
-         ▼                                    ▼
-  PERMANENT MEMORY                     ACTIVE INTELLIGENCE
-  identity, artifacts,                 agents, models, retrieval,
-  observations, assertions,            search, translation,
-  provenance, rights,                  argumentation, evolution,
-  adjudication, history                planning, media
-         │                                    │
-         └─────────────────┬──────────────────┘
-                           ▼
-                 CURRENT QUALIFIED STATE
-                           │
-                           ▼
-                       QUESTIONS
-                           │
-                           ▼
-                PROOF OBLIGATIONS / CRUXES
-                           │
-              ┌────────────┴────────────┐
-              ▼                         ▼
-       CHEAP COMPUTATION          SCARCE REALITY
-```
+| File | What it tells you |
+|---|---|
+| `FINAL-TASK.md` | The full Pāṭala roadmap (17 phases) |
+| `PATHWAY.md` | Strategic positioning + what to build next |
+| `DEV-PLAN.md` | Updated build plan with stealable repos |
+| `RESEARCH-SUMMARY.md` | What we found in cloned repos |
+| `PEER-REVIEW-3.md` | Latest peer review with 25 gates |
+| `HANDSOVER-2026-08-17.md` | This file |
+| `AGENTS.md` | Rules for agents |
+| `README.md` | Project overview |
 
 ---
 
-## 6. FILES (57 Python, 18 Markdown, 22 JSON schemas)
+## 6. KEY ARCHITECTURAL DECISIONS
 
-### Core (18 files)
-`hashing.py`, `entities.py`, `resolver.py`, `events.py`, `schema_registry.py`,
-`completeness.py`, `ingest.py`, `api.py`, `cli.py`, `mcp_server.py`,
-`fingerprint/text.py`, `provenance/derivation.py`, `provenance/llm_repro.py`,
-`signing/checkpoint.py`, `anchor/text.py`, `snapshot/manifest.py`, `reserved.py`,
-`tei_utils.py`
-
-### Adapters (11)
-`archiveorg`, `crossref`, `gretil`, `local_json`, `local_seed`, `local_zip`,
-`openalex`, `orcid`, `pandit`, `ror`, `wikidata`
-
-### Serializers (7)
-`c2pa.py`, `cidoc_crm.py`, `datacite.py`, `huggingface.py`, `prov_o.py`,
-`ro_crate.py`, `web_annotation.py`
-
-### Tests
-`tests/conformance.py` — 5 binary test suites
-
-### Documentation
-`README.md`, `DEV-PLAN.md`, `HANDSOVER-2026-08-17.md`, `FINAL-TASK.md`,
-`PEER-REVIEW-2.md`, `PEER-REVIEW-3.md`, `P0-FIX-PLAN.md`,
-`NEWBUILDCHECKLIST.md`, `MASTER.md`, `NAVIGATION.md`, `recipes.md`, `agentic.md`,
-`docs/api/api-overview.md`, `docs/entities/works.md`, `docs/quickstart.md`,
-`docs/rate-limits.md`
+1. **Postgres is the sole canonical ledger** (no JSONL writer)
+2. **Entity IDs are UUIDv7** (full 128-bit, no truncation)
+3. **JCS uses rfc8785 library** (not manual implementation)
+4. **Adapters produce CandidateAssertions** (not Work fields)
+5. **Resolver is DB-backed** (hydratable from Postgres)
+6. **WorkCoverage replaces WorkCompleteness** (computed from canonical state)
+7. **Evidence must be machine-produced** (anti-cheat rule)
 
 ---
 
@@ -208,21 +174,15 @@ See DEV-PLAN.md for full roadmap (17 phases total).
 ```
 Branch: master
 Remote: https://github.com/prx0r/wiggly
-Commits: 6
-Latest: c49d904
+Commits: 9
+Latest: 959f463
 ```
 
 ---
 
-## 8. ANTI-CHEAT RULE
+## 8. THE ANTI-CHEAT RULE
 
 **"Nothing written in README, commit messages or markdown counts as evidence."**
 
 Evidence must be machine-produced from actual code execution.
 Evidence bundle at `data/evidence/evidence-bundle.json` is the only valid proof.
-
----
-
-## 9. WHAT TO DO NEXT
-
-See `DEV-PLAN.md`. Immediate next step is Phase 1.2 (self-filling source graph), not adding more adapters or features.
