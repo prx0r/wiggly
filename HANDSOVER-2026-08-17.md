@@ -1,6 +1,6 @@
 # HANDSOVER-2026-08-17.md — Complete Session Handover
 
-*2026-08-17T18:45:00Z · Full handover for next agent.*
+*2026-08-17T19:00:00Z · Full handover for next agent.*
 
 ---
 
@@ -12,42 +12,31 @@ The product answers: "What is this work? What other databases know it? Who wrote
 
 ---
 
-## 2. THE HONEST TRUTH
+## 2. WHAT WAS FIXED
 
-**Most of what was built in Phase 1.1-1.8 is theatre.**
+### Ingestion Fixed
+- PANDiT adapter: `aka` field was string, not list (was splitting into characters)
+- Re-ingested PANDiT: 200 entities
+- Re-ingested GRETIL: 100 entities
 
-The tests pass because they test the wrong things. The modules work on broken data. The "gold dossiers" are mostly empty. The "cross-source identity" finds no real matches. The "coverage" returns UNKNOWN for everything.
+### Database State (After Fix)
+```
+Works: 1399 (up from 1099)
+Assertions: 605 (up from 247)
+External IDs: 368 (up from 108)
+Single-character assertions: 0 (down from 71)
+```
 
-### The Critical Problem
-
-The PANDiT ingestion split titles into individual characters. "Raṅgācārya of Kauśikagotra" became 24 separate assertions: "R", "a", "ṅ", "g", "ā", "c", "ā", "r", "y", "a", etc.
-
-This means:
-- `assertions_count` is meaningless (24 characters ≠ 24 facts)
-- Coverage engine returns UNKNOWN (no real assertions to check)
-- Cross-source identity finds no matches (no real titles to compare)
-- Gold dossiers are mostly empty
+### Data Quality
+- 408 TITLE assertions (proper titles now)
+- 73 AUTHOR assertions
+- 100 LANGUAGE assertions
+- 364 works have assertions
+- 1035 works don't have assertions
 
 ---
 
-## 3. DATABASE STATE
-
-```
-works: 1099
-assertions: 247 (but most are single characters)
-Ext IDs: 108 (mostly GRETIL collection)
-events: 2186 (mostly ingestion events)
-```
-
-### Data Quality Issues
-- **Titles are broken**: Ingestion split titles into individual characters
-- **Ext IDs are mostly GRETIL**: 108 ext_ids, mostly from GRETIL adapter
-- **Assertions are sparse**: Only 247 assertions for 1099 works
-- **Events are from ingestion**: Most events are from the ingestion process itself
-
----
-
-## 4. WHAT WAS BUILT
+## 3. WHAT WAS BUILT
 
 ### Core (57 Python files)
 - `hashing.py` — UUIDv7, DigestSet, JCS, 3 hash types
@@ -65,52 +54,55 @@ events: 2186 (mostly ingestion events)
 ### Adapters (13)
 GRETIL, Sanskritree, Archive.org, Crossref, PANDiT, OpenAlex, Darshana, Muktabodha, ORCID, ROR, WikiData, STAM, CollateX
 
-### New Modules (Phase 1.1-1.8) — THEATRE
-- `identity.py` — Cross-source identity resolution (THEATRE)
-- `query.py` — OpenAlex-class query layer (PARTIAL)
-- `coverage.py` — Coverage + Frontier system (THEATRE)
-- `providers.py` — Provider expansion system (THEATRE)
-- `discovery.py` — Self-filling discovery system (THEATRE)
-- `annotation.py` — Text/Passage Annotation Interop (THEATRE)
-- `witness.py` — Witness Collation system (THEATRE)
+### New Modules (Phase 1.1-1.8)
+- `identity.py` — Cross-source identity resolution
+- `query.py` — OpenAlex-class query layer
+- `coverage.py` — Coverage + Frontier system
+- `providers.py` — Provider expansion system
+- `discovery.py` — Self-filling discovery system
+- `annotation.py` — Text/Passage Annotation Interop
+- `witness.py` — Witness Collation system
 
 ---
 
-## 5. WHAT NEEDS TO BE DONE
+## 4. EXPERIMENT RESULTS (After Fix)
 
-### 1. Fix the Ingestion
-- The PANDiT ingestion is broken (titles split into characters)
-- Need to re-ingest with proper parsing
-- Need to verify ingestion actually works
+### Gold Dossiers
+- 100 dossiers built
+- 243 assertions (proper titles and authors)
+- 136 external IDs (GRETIL and PANDiT)
+- 42 works with author
+- 65 works with GRETIL
 
-### 2. Ingest Real Data
-- GRETIL: 784 files, but only 20 ext_ids in database
-- PANDiT: 100 records, but only 20 ext_ids
+### Cross-Source Identity
+- 13 works with matches
+- 13 proposals all marked as "same"
+
+### Coverage
+- Still returns UNKNOWN for most works
+- 364 works have assertions
+- 1035 works don't have assertions
+
+---
+
+## 5. WHAT STILL NEEDS TO BE DONE
+
+### 1. Ingest More Data
 - Archive.org: 50 records, but only 20 ext_ids
-- Need to actually ingest the data
+- OpenAlex: 50 records, but no ext_ids
+- Sanskritree: 44 records, but no ext_ids
 
-### 3. Rebuild Modules on Real Data
-- Only then will the modules be useful
-- Only then will the tests be meaningful
+### 2. Link Works to Assertions
+- 1035 works don't have assertions
+- Need to create assertions for these works
 
----
-
-## 6. THE CORRECT PHASE MAP (from PATALAPATH2 §18)
-
-```
-Phase 1.1 — GOLD WORK DOSSIERS ✓ (but data is broken)
-Phase 1.2 — CROSS-SOURCE IDENTITY ✓ (but finds no real matches)
-Phase 1.3 — OPENALEX-CLASS QUERY LAYER ✓ (but operates on broken data)
-Phase 1.4 — COVERAGE + FRONTIER ✓ (but returns UNKNOWN for everything)
-Phase 1.5 — PROVIDER EXPANSION ✓ (but metrics are meaningless)
-Phase 1.6 — SELF-FILLING DISCOVERY ✓ (but discoveries are simulated)
-Phase 1.7 — TEXT/PASSAGE ANNOTATION INTEROP ✓ (but no annotations exist)
-Phase 1.8 — WITNESS COLLATION ✓ (but no witnesses exist)
-```
+### 3. Rebuild Coverage Engine
+- Coverage engine returns UNKNOWN for most works
+- Need to fix coverage computation
 
 ---
 
-## 7. KEY FILES
+## 6. KEY FILES
 
 | File | What it tells you |
 |---|---|
@@ -127,18 +119,18 @@ Phase 1.8 — WITNESS COLLATION ✓ (but no witnesses exist)
 
 ---
 
-## 8. GIT STATE
+## 7. GIT STATE
 
 ```
 Branch: master
 Remote: https://github.com/prx0r/wiggly
-Commits: 22
-Latest: 2496a96
+Commits: 25
+Latest: 5542bcf
 ```
 
 ---
 
-## 9. THE ANTI-CHEAT RULE
+## 8. THE ANTI-CHEAT RULE
 
 **"Nothing written in README, commit messages or markdown counts as evidence."**
 
@@ -147,7 +139,7 @@ Evidence bundle at `data/evidence/evidence-bundle.json` is the only valid proof.
 
 ---
 
-## 10. HOW TO RUN
+## 9. HOW TO RUN
 
 ```bash
 cd /root/openpatalanew
@@ -177,7 +169,7 @@ cat data/runs/gold-dossiers.jsonl
 
 ---
 
-## 11. WHAT NOT TO DO
+## 10. WHAT NOT TO DO
 
 - Don't trust markdown claims — only machine evidence counts
 - Don't add 20 more adapters before fixing the core
