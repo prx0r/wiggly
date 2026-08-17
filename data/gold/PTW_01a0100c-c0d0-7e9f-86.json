@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-c0d0-7e9f-8608-bdf60e7aa4dc",
+  "title": "Sanskrit Semantics. Its Development and Evaluation",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_cr_10.1515/9783112320945-067_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Sanskrit Semantics. Its Development and Evaluation",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cc0f9776c",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-c106-7fa7-820b-1cab06162c5f",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.544940+00:00"
+}

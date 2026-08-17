@@ -1,0 +1,55 @@
+{
+  "work_id": "PTW_01a01001-7306-7184-8010-092efb0ed9b7",
+  "title": "PTCND_sa_ApastambagRhyasUtra-comm",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_sa_ApastambagRhyasUtra-comm_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Āpastambagṛhyasūtra with Haradatta's Anākulāvṛtti and Sudarśana's Gṛhyatātparyadarśanavyākhyā",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_sa_ApastambagRhyasUtra-comm_lang",
+      "predicate": "LANGUAGE",
+      "object_id": null,
+      "literal": "en",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100173617f82",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a01001-7376-71e3-8351-63f740405ab3",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": true,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.459387+00:00"
+}

@@ -1,0 +1,44 @@
+{
+  "work_id": "PTW_01a0100c-d63f-7b81-9c5c-fda6764909b8",
+  "title": "Abhayākaragupta",
+  "work_type": "TEXT",
+  "assertions_count": 1,
+  "ext_ids_count": 0,
+  "events_count": 2,
+  "assertions": [
+    {
+      "id": "PTCAS_pandit_85411_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Abhayākaragupta",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "external_identifiers": [],
+  "events": [
+    {
+      "id": "PTEVT_01a0100cd67177eb",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "id": "PTEVT_01a0100c-d686-7f5c-8c0c-53f88a5ac9da",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "coverage": {
+    "has_author": false,
+    "has_title": false,
+    "has_genre": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_translation": false,
+    "has_edition": false
+  },
+  "created_at": "2026-08-17T17:12:40.373525Z"
+}

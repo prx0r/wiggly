@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-d264-744f-9dd9-eb42e1a9e8ad",
+  "title": "Dīpaka Hoṣa",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_pandit_87017_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Dīpaka Hoṣa",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cd29873ad",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-d2ac-7829-8798-2dcc36fb0500",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.488800+00:00"
+}

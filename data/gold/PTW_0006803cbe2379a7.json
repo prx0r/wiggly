@@ -1,0 +1,50 @@
+{
+  "work_id": "PTW_0006803cbe2379a7",
+  "title": "PTCND_kakacandeshvarimata",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_kakacandeshvarimata_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Kakacandeshvarimata",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_kakacandeshvarimata_tradition_Tantric Sanskrit",
+      "predicate": "TRADITION",
+      "object_id": null,
+      "literal": "Tantric Sanskrit",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_0006803c-be23-79",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 1,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": true,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.478889+00:00"
+}

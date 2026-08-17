@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-b3c2-7420-8358-6b87a4ce26f4",
+  "title": "उत्तराध्ययनसूत्र.",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_ia_india.history.resource.15640_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "उत्तराध्ययनसूत्र.",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cb3fd7cc4",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-b40b-7150-b748-b3a82ee9af1f",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.533835+00:00"
+}

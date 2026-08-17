@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-bf99-71f3-bf5a-327d17026c86",
+  "title": "Writing Sanskrit",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_cr_10.1017/9781107088283.003_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Writing Sanskrit",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cbfc07a54",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-bfcd-7e7d-a8fe-a64988063010",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.542725+00:00"
+}

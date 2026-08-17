@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-b41a-7d60-9dd7-810d98f069d9",
+  "title": "कल्पसूत्र of भद्रबाहु.",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_ia_india.history.resource.15667_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "कल्पसूत्र of भद्रबाहु.",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cb4517c9d",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-b463-74c7-8d7f-f4e382fa855d",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.532652+00:00"
+}

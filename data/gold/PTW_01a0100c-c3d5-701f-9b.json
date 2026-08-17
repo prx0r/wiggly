@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-c3d5-701f-9b76-8393186da5d4",
+  "title": "Some Problems of the Sanskrit Elements in Nepalī",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_cr_10.1515/9783112320945-016_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Some Problems of the Sanskrit Elements in Nepalī",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cc40f72ce",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-c41d-77c4-8bbd-1b5c07eb2290",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.500418+00:00"
+}

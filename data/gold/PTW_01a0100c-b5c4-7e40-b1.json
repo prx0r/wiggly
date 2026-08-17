@@ -1,0 +1,55 @@
+{
+  "work_id": "PTW_01a0100c-b5c4-7e40-b12d-3ce1988a29ce",
+  "title": "Bhagavad Gita ( Vishva Rupa) Manu 02 05 # 384 Lal Bahadur Shastri Sanskrit University",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_ia_zQXg_bhagavad-gita-vishva-rupa-manu-02-05-384-lal-bahadur-shastri-sanskrit-university_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Bhagavad Gita ( Vishva Rupa) Manu 02 05 # 384 Lal Bahadur Shastri Sanskrit University",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_ia_zQXg_bhagavad-gita-vishva-rupa-manu-02-05-384-lal-bahadur-shastri-sanskrit-university_author",
+      "predicate": "AUTHOR",
+      "object_id": null,
+      "literal": "Lal Bahadur Shastri Sanskrit University",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cb6207101",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-b636-76a9-843a-c8981f083668",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": true,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.466689+00:00"
+}

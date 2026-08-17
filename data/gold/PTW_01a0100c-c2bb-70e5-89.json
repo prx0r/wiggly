@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-c2bb-70e5-891d-bc23236e7a58",
+  "title": "Sanskrit Epic Tradition. II. The avātara Accounts of Rāma",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_cr_10.1515/9783112320945-100_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Sanskrit Epic Tradition. II. The avātara Accounts of Rāma",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cc2f57fba",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-c307-7eab-a70f-4bdde678852d",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.503814+00:00"
+}

@@ -1,0 +1,154 @@
+{
+  "work_id": "PTW_01a0100c-cd14-7a47-aac4-7fd5d490655e",
+  "title": "Abdaprabodha",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_pandit_105236_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Abdaprabodha",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_4966",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "B",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_4282",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "h",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_5170",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "o",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_7771",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "j",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_7011",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "a",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_1557",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "d",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_1716",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "e",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_405",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "v",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_3036",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "s",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_724",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "ṅ",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_7262",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "g",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_105236_aka_7621",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "r",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 13,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100ccecb7dd6",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-cee3-776a-b934-745fe625ea80",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.402679+00:00"
+}

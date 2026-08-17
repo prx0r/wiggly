@@ -1,0 +1,199 @@
+{
+  "work_id": "PTW_01a0100c-c79b-70b5-8a7a-dbb175e19a7d",
+  "title": "Nārāyaṇa",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_pandit_86182_aka_4187",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "(",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Nārāyaṇa",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_4237",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "N",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_5849",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "ā",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_7621",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "r",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_6598",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "y",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_7011",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "a",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_9223",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "ṇ",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_9392",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": " ",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_4966",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "B",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_4282",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "h",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_2647",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "ṭ",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_8146",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": ")",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_580",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "P",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_6952",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "ḍ",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_1650",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "i",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_7929",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "t",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_86182_aka_7430",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "I",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 18,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cc96a7c8e",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-c979-7273-98cf-356ddbb18d9b",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.401321+00:00"
+}

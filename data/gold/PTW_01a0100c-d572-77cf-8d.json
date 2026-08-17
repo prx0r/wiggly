@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-d572-77cf-8d37-85c5c2747ae6",
+  "title": "Abhayadeva Sūri",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_pandit_85384_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Abhayadeva Sūri",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cd5af7323",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-d5c1-73cc-8f89-13b45855119d",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.527935+00:00"
+}

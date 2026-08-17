@@ -1,0 +1,55 @@
+{
+  "work_id": "PTW_01a0100c-b352-77c8-9f98-c948845cde26",
+  "title": "Navarnava Vidhi ( Sanskrit) And Skanda Purana ( Sanskrit, Subject Purana), MSS No. 35 Gurukul Kangri Collection",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_ia_CanH_navarnava-vidhi-sanskrit-and-skanda-purana-sanskrit-subject-purana-mss-no.-35-gu_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Navarnava Vidhi ( Sanskrit) And Skanda Purana ( Sanskrit, Subject Purana), MSS No. 35 Gurukul Kangri Collection",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_ia_CanH_navarnava-vidhi-sanskrit-and-skanda-purana-sanskrit-subject-purana-mss-no.-35-gu_author",
+      "predicate": "AUTHOR",
+      "object_id": null,
+      "literal": "Gurukul Kangri Collection",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cb39b758a",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-b3ac-7a15-8792-d8ea6bb98a82",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": true,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.444268+00:00"
+}

@@ -1,0 +1,55 @@
+{
+  "work_id": "PTW_01a0100c-b86d-7c6e-9f9b-80077531088d",
+  "title": "Indian Industrial Commission 1916 18 Report 1918 Panjab Uni",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_ia_IndianIndustrialCommission191618Report1918PanjabUni_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Indian Industrial Commission 1916 18 Report 1918 Panjab Uni",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_ia_IndianIndustrialCommission191618Report1918PanjabUni_author",
+      "predicate": "AUTHOR",
+      "object_id": null,
+      "literal": "eGangotri",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cb8c779ac",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-b8e1-7938-b6a8-bb5d8e5838c7",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": true,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.463821+00:00"
+}

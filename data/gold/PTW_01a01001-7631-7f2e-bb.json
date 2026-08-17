@@ -1,0 +1,64 @@
+{
+  "work_id": "PTW_01a01001-7631-7f2e-bbe9-2c5db937bd9a",
+  "title": "PTCND_sa_Aryadeva-catuHzatikA",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_sa_Aryadeva-catuHzatikA_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Catuḥśatikā",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_sa_Aryadeva-catuHzatikA_author",
+      "predicate": "AUTHOR",
+      "object_id": null,
+      "literal": "Āryadeva",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_sa_Aryadeva-catuHzatikA_lang",
+      "predicate": "LANGUAGE",
+      "object_id": null,
+      "literal": "en",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 3,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a01001767376e3",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a01001-7684-771d-999d-55b4130afb31",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": true,
+    "has_title": true,
+    "has_language": true,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.418636+00:00"
+}

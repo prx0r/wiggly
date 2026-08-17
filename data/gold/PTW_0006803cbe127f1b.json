@@ -1,0 +1,50 @@
+{
+  "work_id": "PTW_0006803cbe127f1b",
+  "title": "PTCND_sa_AGgirasasmRti",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_sa_AGgirasasmRti_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Āṅgirasasmṛti",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_sa_AGgirasasmRti_lang",
+      "predicate": "LANGUAGE",
+      "object_id": null,
+      "literal": "en",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_0006803c-be13-7f",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 1,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": true,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.477831+00:00"
+}

@@ -1,0 +1,222 @@
+{
+  "work_id": "PTW_0006803ca8677e45",
+  "title": "Unknown",
+  "work_type": "TEXT",
+  "assertions": [],
+  "assertions_count": 0,
+  "external_identifiers": [
+    {
+      "id": "PTEXT_sa_108-buddhist-stotras_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_108-buddhist-stotras"
+    },
+    {
+      "id": "PTEXT_sa_AGgirasasmRti_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_AGgirasasmRti"
+    },
+    {
+      "id": "PTEXT_sa_AdizeSa-paramArthasAra_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_AdizeSa-paramArthasAra"
+    },
+    {
+      "id": "PTEXT_sa_AdyanAtha-anuttaraprakAzapaJcAzikA_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_AdyanAtha-anuttaraprakAzapaJcAzikA"
+    },
+    {
+      "id": "PTEXT_sa_AlambanaparIkSA-comm_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_AlambanaparIkSA-comm"
+    },
+    {
+      "id": "PTEXT_sa_AlambanaparIkSA_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_AlambanaparIkSA"
+    },
+    {
+      "id": "PTEXT_sa_AnandabhaTTa-vallAlacarita_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_AnandabhaTTa-vallAlacarita"
+    },
+    {
+      "id": "PTEXT_sa_Anandakanda_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_Anandakanda"
+    },
+    {
+      "id": "PTEXT_sa_Anandavardhana-dhvanyAloka-comm_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_Anandavardhana-dhvanyAloka-comm"
+    },
+    {
+      "id": "PTEXT_sa_Anandavardhana-dhvanyAloka_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_Anandavardhana-dhvanyAloka"
+    },
+    {
+      "id": "PTEXT_akulavira_completion_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "akulavira_completion"
+    },
+    {
+      "id": "PTEXT_cidgaganacandrika_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "cidgaganacandrika"
+    },
+    {
+      "id": "PTEXT_cidgaganacandrika_continuation11_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "cidgaganacandrika_continuation11"
+    },
+    {
+      "id": "PTEXT_jnanakarika_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "jnanakarika"
+    },
+    {
+      "id": "PTEXT_kakacandeshvarimata_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "kakacandeshvarimata"
+    },
+    {
+      "id": "PTEXT_kalanalatantra_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "kalanalatantra"
+    },
+    {
+      "id": "PTEXT_kalikarahasya_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "kalikarahasya"
+    },
+    {
+      "id": "PTEXT_kaula_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "kaula"
+    },
+    {
+      "id": "PTEXT_kaula_continuations_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "kaula_continuations"
+    },
+    {
+      "id": "PTEXT_kaularahasya_sanskritree",
+      "scheme": "OTHER",
+      "identifier": "kaularahasya"
+    },
+    {
+      "id": "PTEXT_oa_W4211090299_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W4211090299"
+    },
+    {
+      "id": "PTEXT_oa_W4211090299_doi",
+      "scheme": "DOI",
+      "identifier": "https://doi.org/10.1017/cbo9780511706547"
+    },
+    {
+      "id": "PTEXT_oa_W1889698854_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W1889698854"
+    },
+    {
+      "id": "PTEXT_oa_W1889698854_doi",
+      "scheme": "DOI",
+      "identifier": "https://doi.org/10.1515/9783111556871"
+    },
+    {
+      "id": "PTEXT_oa_W2204075894_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W2204075894"
+    },
+    {
+      "id": "PTEXT_oa_W2204075894_doi",
+      "scheme": "DOI",
+      "identifier": "https://doi.org/10.2307/2941919"
+    },
+    {
+      "id": "PTEXT_oa_W1569139564_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W1569139564"
+    },
+    {
+      "id": "PTEXT_oa_W1569139564_doi",
+      "scheme": "DOI",
+      "identifier": "https://doi.org/10.5860/choice.44-1370"
+    },
+    {
+      "id": "PTEXT_oa_W2096352143_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W2096352143"
+    },
+    {
+      "id": "PTEXT_oa_W2096352143_doi",
+      "scheme": "DOI",
+      "identifier": "https://doi.org/10.1017/s0952675700002190"
+    },
+    {
+      "id": "PTEXT_oa_W1553391585_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W1553391585"
+    },
+    {
+      "id": "PTEXT_oa_W1553391585_doi",
+      "scheme": "DOI",
+      "identifier": "https://doi.org/10.2307/287725"
+    },
+    {
+      "id": "PTEXT_oa_W2049031033_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W2049031033"
+    },
+    {
+      "id": "PTEXT_oa_W2049031033_doi",
+      "scheme": "DOI",
+      "identifier": "https://doi.org/10.2307/2050186"
+    },
+    {
+      "id": "PTEXT_oa_W4250420139_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W4250420139"
+    },
+    {
+      "id": "PTEXT_oa_W4250420139_doi",
+      "scheme": "DOI",
+      "identifier": "https://doi.org/10.1163/9789004492677"
+    },
+    {
+      "id": "PTEXT_oa_W1974036256_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W1974036256"
+    },
+    {
+      "id": "PTEXT_oa_W1552464247_openalex",
+      "scheme": "OTHER",
+      "identifier": "https://openalex.org/W1552464247"
+    }
+  ],
+  "ext_ids_count": 38,
+  "events": [
+    {
+      "event_id": "PTEVT_0006803c-a868-7a",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 1,
+  "coverage": {
+    "has_author": false,
+    "has_title": false,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": true,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.397219+00:00"
+}

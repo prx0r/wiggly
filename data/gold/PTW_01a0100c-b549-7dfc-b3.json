@@ -1,0 +1,55 @@
+{
+  "work_id": "PTW_01a0100c-b549-7dfc-b3c3-b796034222f0",
+  "title": "भरतेश्र्वरवृत्ति ( कथाकोश ) of शुभशील.",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_ia_india.history.resource.15997_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "भरतेश्र्वरवृत्ति ( कथाकोश ) of शुभशील.",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_ia_india.history.resource.15997_date",
+      "predicate": "DATE",
+      "object_id": null,
+      "literal": "1549-01-01T00:00:00Z",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cb5937924",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-b5ac-7c5b-8717-aec6e0c8d5f1",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": true,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.465258+00:00"
+}

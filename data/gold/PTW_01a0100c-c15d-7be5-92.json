@@ -1,0 +1,46 @@
+{
+  "work_id": "PTW_01a0100c-c15d-7be5-92a8-c3ee38465993",
+  "title": "Revival in the Sanskrit mahākāvya Tradition",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_cr_10.1515/9783112320945-020_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Revival in the Sanskrit mahākāvya Tradition",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 1,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cc18c7a94",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-c1a1-7579-baa9-95fe951723ff",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.508265+00:00"
+}

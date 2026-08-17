@@ -1,0 +1,253 @@
+{
+  "work_id": "PTW_01a0100c-ca5c-7a6c-9bdb-c5763245046f",
+  "title": "Raṅgācārya of Kauśikagotra",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_pandit_87684_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Raṅgācārya of Kauśikagotra",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_4187",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "(",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_6313",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "C",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_4282",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "h",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_1716",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "e",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_6336",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "l",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_6964",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "u",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_7621",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "r",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_8146",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": ")",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_9392",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": " ",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_8596",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "R",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_7011",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "a",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_724",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "ṅ",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_7262",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "g",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_5849",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "ā",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_4832",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "c",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_6598",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "y",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_5170",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "o",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_3237",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "f",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_7916",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "K",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_9668",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "ś",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_1650",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "i",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_4561",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "k",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_87684_aka_7929",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "t",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 24,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cccee7ca2",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-cd01-772b-9766-cda9be903500",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.398683+00:00"
+}

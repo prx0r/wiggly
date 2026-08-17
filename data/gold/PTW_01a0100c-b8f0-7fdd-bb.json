@@ -1,0 +1,55 @@
+{
+  "work_id": "PTW_01a0100c-b8f0-7fdd-bb34-b14af98a4898",
+  "title": "Amar Kosh Of Amar Simha Manu 03 02 # 718 Lal Bahadur Shastri Sanskrit University",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_ia_ItPo_amar-kosh-of-amar-simha-manu-03-02-718-lal-bahadur-shastri-sanskrit-university_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Amar Kosh Of Amar Simha Manu 03 02 # 718 Lal Bahadur Shastri Sanskrit University",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_ia_ItPo_amar-kosh-of-amar-simha-manu-03-02-718-lal-bahadur-shastri-sanskrit-university_author",
+      "predicate": "AUTHOR",
+      "object_id": null,
+      "literal": "Lal Bahadur Shastri Sanskrit University",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [],
+  "ext_ids_count": 0,
+  "events": [
+    {
+      "event_id": "PTEVT_01a0100cb9287403",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    },
+    {
+      "event_id": "PTEVT_01a0100c-b938-7e9d-8f59-319537f5de5a",
+      "event_type": "EntityCreated",
+      "occurred_at": null
+    }
+  ],
+  "events_count": 2,
+  "coverage": {
+    "has_author": true,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:15:17.445414+00:00"
+}
