@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""patala/api.py — OpenPatala API v1 (Postgres-backed).
+"""patala/api.py — OpenPāṭala API v1 (Postgres-backed).
 
 Per newbuildmainspec §52-67: all core endpoints + /bundle, /resolve, /frontier, /changes.
 """
@@ -14,6 +14,7 @@ from fastapi import FastAPI, HTTPException, Query
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from patala.db import store
+from patala.hashing import uuid7
 
 app = FastAPI(title="OpenPatala API v1", version="1.0.0")
 
@@ -193,14 +194,86 @@ def search(q: str, limit: int = Query(20, le=100)):
     return _envelope(results[:limit])
 
 
-# --- Frontier ---
+# --- Frontier (per pathway §22) ---
+
+@app.get("/v1/frontier")
+def frontier(filter: str | None = None, limit: int = Query(20, le=100)):
+    """Real frontier endpoint per pathway §22.
+    
+    Filter examples:
+      translation:none — works with no translation
+      identity:unresolved — works with unresolved identity
+      source:none — works with no source text
+    """
+    from patala.work_coverage import compute_coverage
+    conn = store.get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT id FROM works")
+    work_ids = [row[0] for row in cur.fetchall()]
+    cur.close()
+    conn.close()
+
+    frontier = []
+    for wid in work_ids[:limit]:
+        coverage = compute_coverage(wid)
+        frontier.append({"work_id": wid, "coverage": coverage})
+
+    return _envelope(frontier, meta={"count": len(frontier)})
+
 
 @app.get("/v1/frontier/translations")
 def frontier_translations(limit: int = Query(20, le=100)):
-    works = store.list_works(10000)
-    frontier = [{"work_id": w["id"], "title": w.get("preferred_title"), "translation_state": "NONE_KNOWN"}
-                for w in works]
-    return _envelope(frontier[:limit])
+    """Works needing translations."""
+    from patala.work_coverage import compute_coverage
+    conn = store.get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT id FROM works")
+    work_ids = [row[0] for row in cur.fetchall()]
+    cur.close()
+    conn.close()
+
+    frontier = []
+    for wid in work_ids[:limit]:
+        coverage = compute_coverage(wid)
+        if coverage.get("translation") == "NONE_KNOWN":
+            frontier.append({"work_id": wid, "coverage": coverage})
+
+    return _envelope(frontier, meta={"count": len(frontier)})
+
+
+# --- Snapshots (per pathway §23) ---
+
+@app.get("/v1/snapshots")
+def list_snapshots():
+    """List available snapshot manifests."""
+    from patala.snapshot.manifest import create_snapshot_manifest
+    conn = store.get_conn()
+    cur = conn.cursor()
+    cur.execute("SELECT MAX(cursor) FROM events")
+    max_cursor = cur.fetchone()[0]
+    cur.execute("SELECT COUNT(*) FROM works")
+    works = cur.fetchone()[0]
+    cur.close()
+    conn.close()
+
+    snapshot = {
+        "snapshot_id": f"PTSNAP_{uuid7().replace(chr(45), '')[:16]}",
+        "state_cursor": max_cursor,
+        "created_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "protocol_version": "1.0.0",
+        "works": works,
+        "status": "current",
+    }
+    return _envelope([snapshot])
+
+
+@app.get("/v1/stats")
+def get_stats():
+    """System statistics."""
+    from patala.work_coverage import get_coverage_stats
+    stats = store.get_stats()
+    coverage = get_coverage_stats()
+    return _envelope({**stats, **coverage})
 
 
 # --- Changes ---
