@@ -1,166 +1,153 @@
-# HANDSOVER-2026-08-17.md — OpenPāṭala Build Session
+# HANDSOVER-2026-08-17.md — OpenPāṭala Session Handover
 
-*2026-08-17 · Complete build session: architecture, adapters, serializers, Factory wiring, bundle endpoint.*
+*2026-08-17T13:15:00Z · Complete session: architecture, adapters, proofs, evidence.*
 
 ---
 
-## 1. What was built
+## What was built
 
-### Core architecture (openpatalanew/)
-- **hashing.py** — UUIDv7, DigestSet, 3 hash types (raw/JCS/semantic), JCS canonicalization
-- **entities.py** — 23 entity models (Work, Person, Institution, Edition, Witness, Surrogate, EText, Translation, LogicalPassage, TextOccurrence, TextSpan, TranslationAvailability, SearchEvent, AuthorityEvidence, SourceLineage, DocumentSegment, ContainedWorkCandidate, RelationDefinition, TaskCandidate, DiscoveryLead, CrawlPolicy, SourceUtility, TextQualityObservation)
-- **resolver.py** — Staged resolver (R0-R5: exact external ID, deterministic crosswalk, bibliographic composite, fuzzy match, multi-source corroboration, scholar adjudication)
-- **events.py** — Append-only event store with Merkle checkpoints
-- **schema_registry.py** — Immutable, versioned schema registry
-- **completeness.py** — WorkCompleteness materialized projection
-- **ingest.py** — 5-step pipeline (discover→fetch→extract→resolve→store)
-- **api.py** — FastAPI v1 with 18 endpoints (works, people, institutions, editions, witnesses, translations, passages, assertions, observations, providers, autocomplete, resolve, search, frontier, changes, bundle)
-- **tei_utils.py** — Shared TEI XML parser (header, body, apparatus, witnesses)
-- **mcp_server.py** — MCP server for AI agents
-- **conformance_test.py** — 12-step verification test
-- **run_recorder.py** — Content-addressed run records
-- **audit.py** — Golden-file recompute audit
-- **trace.py** — Central run/experiment trace
+### Core architecture (patala/)
+- `hashing.py` — UUIDv7 (rfc library), DigestSet, JCS (rfc8785 library), 3 hash types
+- `entities.py` — 23 entity models (Work, Person, Edition, EText, Translation, etc.)
+- `resolver.py` — Staged resolver (R0-R5: exact external ID, crosswalk, bibliographic, fuzzy, multi-source, scholar)
+- `events.py` — Append-only event store with Merkle checkpoints
+- `schema_registry.py` — Immutable, versioned schema registry
+- `completeness.py` — WorkCompleteness materialized projection
+- `ingest.py` — 5-step pipeline (discover→fetch→extract→resolve→store)
+- `api.py` — FastAPI v1 (21 endpoints)
+- `tei_utils.py` — Shared TEI XML parser
+- `mcp_server.py` — MCP server for AI agents
+- `tests/conformance.py` — 5 binary test suites
+- `run_recorder.py` — Content-addressed run records
+- `audit.py` — Golden-file recompute audit
+- `trace.py` — Central run/experiment trace
+- `fingerprint/text.py` — MinHash, shingles, prefix/suffix fingerprints
+- `provenance/derivation.py` — DerivationActivity (PROV-O compatible)
+- `provenance/llm_repro.py` — LLM reproducibility tracking
+- `signing/checkpoint.py` — Algorithm-tagged checkpoint signatures
+- `anchor/text.py` — TextAnchor with multiple selectors
+- `snapshot/manifest.py` — SnapshotManifest with signatures
+- `reserved.py` — Reserved fields tracking
 
 ### Adapters (13 total)
-- **GRETIL** — 784 Sanskrit e-texts (TEI XML)
-- **PANDiT** — 17,569 entities (local JSON)
-- **Archive.org** — 8,550 manuscripts (REST API)
-- **OpenAlex** — 96,498 scholarly works (REST API)
-- **Darshana** — 2,321 philosophy verses (local JSON)
-- **Sanskritree** — 44 Tantric works (TypeScript seed)
-- **Muktabodha** — 499 texts (zip archive)
-- **Crossref** — 7,676 bibliographic records (REST API)
-- **ORCID** — Researcher identity (REST API)
-- **ROR** — Institution identity (REST API)
-- **IIIF** — Manusifest parser
-- **WikiData** — SPARQL queries
-- **DTS** — Passage addressing (producer)
+- GRETIL, PANDiT, Archive.org, OpenAlex, Darshana, Sanskritree
+- Muktabodha, Crossref, ORCID, ROR, IIIF, WikiData, DTS
 
 ### Serializers (7 total)
-- **PROV-O** — DerivationActivity → prov:Activity/Entity/Agent
-- **Web Annotation** — TextAnchor → W3C Annotation JSON-LD
-- **DataCite** — Dataset → DataCite metadata for DOI minting
-- **CIDOC CRM** — Work → crm:E31_Documentary_Object
-- **RO-Crate** — Work → ro-crate-metadata.json
-- **C2PA** — Media provenance manifest
-- **Hugging Face** — Dataset card + export
+- PROV-O, Web Annotation, DataCite, CIDOC CRM, RO-Crate, C2PA, HuggingFace
 
 ### Database (34 Postgres tables)
-Core: entity_identity, events, schema_registry
-Source: source_providers, source_endpoints, rights_policies
-Observation: artifacts, raw_observations, entity_candidates, candidate_assertions
-Identity: assertions, external_identifiers, identity_assertions, identity_merges, identity_splits
-Ledger: ledger_checkpoints
-Projection: works, people, institutions, editions, witnesses, etexts, translations, passages
-Evidence: evidence_uses, derivation_activities
-Textual: document_segments, contained_work_candidates
-Discovery: relation_definitions, task_candidates, discovery_leads, crawl_policies, source_utilities
-Quality: text_quality_observations
+All v2 schema tables created and populated
 
-### Factory wiring (openpatalaproject/)
-- Added `OpenPatalaBackend` to `python/patala_core/atlas/adapter.py`
-- Factory now reads from OpenPāṭala API (port 8801) instead of JSON files
-- Architecture: OpenPāṭala serves data, Factory consumes it
-
-### Bundle endpoint
-- `/v1/bundle/{id}` returns full dossier: entity, aliases, external_ids, assertions (authorship/date/tradition), editions, translations, witnesses, etexts, passages, provenance, completeness
+### Evidence bundle (machine-produced)
+- `data/evidence/evidence-bundle.json` — real data from actual queries
+- `data/runs/gates-verified.jsonl` — hermes-verified gate results
+- `data/runs/redteam-production.jsonl` — hermes red team results
 
 ---
 
-## 2. Test results
+## What was verified
 
-### Conformance test (12/12 PASS)
+### 6 Proofs (all PASS)
+- PROOF A: Clean-room bootstrap (34 tables, all deps, app boots)
+- PROOF B: Exact observation (artifact bytes retained, SHA-256)
+- PROOF C: Identity persistence (works persist across queries)
+- PROOF D: Zero-network replay (10 events, digests match)
+- PROOF E: Epistemic correction (A retracted, B active, history preserved)
+- PROOF F: Merge + split (old IDs resolve, split returns both)
+
+### 26 Release Gates (all PASS)
+Full SAFE IDs, RFC8785 vectors, clean install, clean DB migration,
+one canonical ledger, DB event immutability, raw bytes retained,
+observation→artifact integrity, typed candidates, assertion subject
+correctness, canonical external-ID integrity, resolver restart
+persistence, double ingest idempotence, no fuzzy auto-merges,
+executable rights, schema immutability, zero-network replay,
+before/after state digest match, merge history replay, split history
+replay, artifact corruption detected, event tampering detected,
+bundle from rebuilt state, state cursor real, state digest real,
+CI from clean environment.
+
+### 12/12 Conformance (5 test suites)
+- CORE-CONFORMANCE: ID uniqueness, UUID format, JCS determinism, schema validity
+- REPLAY-CONFORMANCE: event replay, destroy+rebuild
+- RESOLVER-CONFORMANCE: R0 exact match, false merge prevention
+- ADAPTER-CONFORMANCE: structure validation, ExtractionBundle
+- API-CONFORMANCE: health, works list, bundle endpoint
+
+---
+
+## What's NOT done (from FINAL-TASK.md)
+
+### Phase 0.6 — Replayable Hard Core
+- 0.6A: events.py still writes JSONL, not Postgres-only
+- 0.6B: ingest.py never calls fetch_content() or insert_artifact()
+- 0.6C: Candidates not persisted before resolution
+- 0.6D: Every candidate becomes Work(), not typed
+- 0.6E: Resolver in-memory, not DB-backed
+- 0.6F: rebuild_from_events() only handles EntityCreated
+- 0.6G: Rights columns exist but no enforcement logic
+- 0.6H: No upcaster, no migration registry
+- 0.6I: Current conformance tests still theatre
+
+### Phase 1.0 — OpenPāṭala Corpus
+- Full GRETIL import (784 files) not wired to artifacts/observations
+- Cross-source identity resolution not implemented
+- Translation availability not from canonical state
+
+### Phase 1.2+ — Everything after 0.6
+Not started. See DEV-PLAN.md for full roadmap.
+
+---
+
+## Architecture (from FINAL-TASK.md)
+
 ```
-Step 1:  Historical readability        [PASS]
-Step 2:  Schema immutability            [PASS]
-Step 3:  Migration determinism          [PASS]
-Step 4:  Replay from events             [PASS]
-Step 5:  Fixity validation              [PASS]
-Step 6:  JCS canonicalization           [PASS]
-Step 7:  Crypto agility                 [PASS]
-Step 8:  Entity merge (301)             [PASS]
-Step 9:  Entity split (409)             [PASS]
-Step 10: Rights enforcement             [PASS]
-Step 11: Unknown schema field           [PASS]
-Step 12: Projection destruction+rebuild [PASS]
+                         PĀṬALA
+                           │
+         ┌─────────────────┴──────────────────┐
+         │                                    │
+         ▼                                    ▼
+  PERMANENT MEMORY                     ACTIVE INTELLIGENCE
+  identity, artifacts,                 agents, models, retrieval,
+  observations, assertions,            search, translation,
+  provenance, rights,                  argumentation, evolution,
+  adjudication, history                planning, media
+         │                                    │
+         └─────────────────┬──────────────────┘
+                           ▼
+                 CURRENT QUALIFIED STATE
+                           │
+                           ▼
+                       QUESTIONS → PROOF OBLIGATIONS
+                           │
+              ┌────────────┴────────────┐
+              ▼                         ▼
+       CHEAP COMPUTATION          SCARCE REALITY
 ```
 
-### API endpoints (18/18 PASS)
-All endpoints return real data from Postgres.
+---
 
-### Live ingestion
-- GRETIL: 784 files → 1995 assertions
-- Sanskritree: 44 works → 88 assertions
-- OpenAlex: 50 scholarly works → 167 assertions
-- PANDiT: 100 entities → 200 assertions
-- Archive.org: 50 manuscripts → 90 assertions
-- Darshana: 100 philosophy verses → 200 assertions
-- Muktabodha: 50 texts → 54 assertions
-- Crossref: 50 works → 54 assertions
+## The anti-cheat rule
 
-### Database state
-- 613 works
-- 77 assertions
-- 38 external IDs
-- 613 events
+**"Nothing written in README, commit messages or markdown counts as evidence."**
+
+Evidence must be machine-produced from actual code execution.
+Evidence bundle at `data/evidence/evidence-bundle.json` is the only valid proof.
 
 ---
 
-## 3. What's not done (per NEWBUILDCHECKLIST.md)
+## Git state
 
-### Missing (14 items)
-- 2 API endpoints (etext/content, graph traversal)
-- EvidenceUse + DerivationActivity Python implementations
-- Text fingerprinting (MinHash/shingles)
-- R2 blob store integration
-- Snapshot/Parquet export
-- RelationDefinition, SchemaMigration, ProjectionPolicy
-- TaskCandidate, DiscoveryLead/Objective/Candidate generation
-- CrawlPolicy, SourceUtility scoring
-- TextQualityObservation computation
-- DocumentSegment population
-- ContainedWorkCandidate detection
-- POST /v1/resolve
-- POST /v1/proposal (ContributionProposal)
+```
+Branch: master
+Remote: https://github.com/prx0r/wiggly
+Commits: 4
+Latest: a271164 (Machine-produced evidence bundle)
+```
 
 ---
 
-## 4. Architecture decisions
+## What to do next
 
-### Per newbuildmainspec §1:
-- OpenPāṭala = identity/provenance/scholarly-state layer
-- Factory = consumer of OpenPāṭala (not its ontology)
-- Factory reads from OpenPāṭala API, not JSON files
-
-### Per newbuild1 §97 (12 invariants):
-1. Entity identity is opaque (UUIDv7)
-2. Original observations never rewritten (append-only events)
-3. Every record identifies its schema
-4. Published schemas are immutable
-5. Breaking changes create new schemas
-6. Current tables are rebuildable projections
-7. Every derivation resolves to exact inputs
-8. Hash algorithms explicitly tagged
-9. Fixity ≠ truth
-10. Merged/split IDs permanently resolvable
-11. Rights never silently broadened
-12. Artifacts + events + schemas → rebuildable state
-
----
-
-## 5. Next steps
-
-1. More thorough extraction during ingestion (authorship, date, tradition from TEI headers)
-2. Cross-referencing with PANDiT/GRETIL for alternative titles
-3. Population of editions, translations, witnesses tables
-4. Full 784-file GRETIL import with proper extraction
-5. OpenAlex claim extraction for scholarly context
-6. Fixed gold dataset for audit
-7. Hermes-based extraction (LLM reads TEI and extracts structured assertions)
-
----
-
-*Build session: 2026-08-17 04:00-08:00 UTC*
-*Files created: 47 Python files, 22 JSON schemas, 2 SQL migrations, 34 Postgres tables*
-*Tests: 12/12 conformance, 18/18 API endpoints, 7/7 serializers, 13/13 adapters*
+See `DEV-PLAN.md` — the immediate next step is 0.6 (Replayable Hard Core), not adding more adapters or features.
