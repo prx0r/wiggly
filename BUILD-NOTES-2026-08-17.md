@@ -1,130 +1,201 @@
-# BUILD-NOTES-2026-08-17.md — OpenPāṭala Production Build
+# BUILD-NOTES-2026-08-17.md — Timestamped Build Notes
 
-*2026-08-17T08:00:00Z · Complete build session: architecture, adapters, serializers, Factory wiring.*
+*2026-08-17T19:15:00Z · Session pause point*
 
 ---
 
-## Build summary
+## SESSION SUMMARY
 
-| Component | Status | Count |
-|---|---|---|
-| Python files | Built | 47 |
-| JSON schemas | Built | 22 |
-| SQL migrations | Built | 2 |
-| Postgres tables | Created | 34 |
-| Entity models | Implemented | 23 |
-| Adapters | Working | 13 |
-| Serializers | Working | 7 |
-| API endpoints | Working | 18 |
-| Conformance tests | Passing | 12/12 |
+### What Was Done
+1. **Phase 1.1-1.8 Built**: All modules from PATALAPATH2 §18 completed
+2. **Honest Peer Review**: Discovered most work was theatre (broken data)
+3. **Ingestion Fixed**: PANDiT adapter bug fixed (aka field was string, not list)
+4. **Data Re-ingested**: PANDiT (200 entities), GRETIL (100 entities)
 
-## What was built (chronological)
-
-### Phase 1: Core architecture
-- 04:00 — Created project structure
-- 04:15 — Built hashing.py (UUIDv7, DigestSet, JCS)
-- 04:30 — Built entities.py (23 models)
-- 04:45 — Built resolver.py (R0-R5)
-- 05:00 — Built events.py (append-only + Merkle)
-- 05:15 — Built schema_registry.py
-- 05:30 — Built completeness.py
-- 05:45 — Created Postgres migrations (001_create_all_tables.sql)
-- 06:00 — Built api.py (18 endpoints)
-- 06:15 — Built ingest.py (5-step pipeline)
-
-### Phase 2: Adapters
-- 06:30 — Built GRETIL adapter (784 files)
-- 06:45 — Built Sanskritree adapter (44 works)
-- 07:00 — Built OpenAlex adapter (50 scholarly works)
-- 07:15 — Built PANDiT adapter (100 entities)
-- 07:30 — Built Archive.org adapter (50 manuscripts)
-- 07:45 — Built Darshana adapter (100 verses)
-- 08:00 — Built Muktabodha adapter (50 texts)
-- 08:15 — Built Crossref adapter (50 works)
-- 08:30 — Built ORCID, ROR, IIIF, WikiData, DTS adapters
-
-### Phase 3: Serializers + Utilities
-- 08:45 — Built PROV-O, Web Annotation, DataCite, CIDOC CRM, RO-Crate, C2PA, HuggingFace serializers
-- 09:00 — Built tei_utils.py (shared TEI parser)
-- 09:15 — Built mcp_server.py (agent interface)
-- 09:30 — Built conformance_test.py (12-step verification)
-
-### Phase 4: Factory wiring
-- 09:45 — Added OpenPatalaBackend to old project's adapter.py
-- 10:00 — Wired Factory to read from OpenPāṭala API (port 8801)
-- 10:15 — Rebuilt /bundle endpoint to return full dossier
-
-### Phase 5: Testing
-- 10:30 — Ran 12/12 conformance tests against live Postgres
-- 10:45 — Verified 18/18 API endpoints
-- 11:00 — Tested live ingestion (613 works, 77 assertions)
-- 11:15 — Tested Factory reads from OpenPāṭala API
-
-## Database state (final)
-
+### Database State (Current)
 ```
-works: 613
-assertions: 77
-external_ids: 38
-events: 613
-tables: 34
+Works: 1399
+Assertions: 605
+External IDs: 368
+Single-character assertions: 0
 ```
 
-## Files created
+### Experiment Logs
+All experiments logged to `data/runs/`:
+- `gold-dossiers.jsonl` — 100 dossiers built
+- `cross-source-identity.jsonl` — 13 works with matches
+- `openalex-query.jsonl` — Query layer working
+- `coverage-frontier.jsonl` — Coverage returns UNKNOWN (needs fix)
+- `provider-expansion.jsonl` — Provider health computed
+- `self-filling-discovery.jsonl` — Discovery simulated
+- `annotation-interop.jsonl` — Format conversions working
+- `witness-collation.jsonl` — Collation working
 
-```
-openpatalanew/
-├── patala/
-│   ├── hashing.py          UUIDv7, DigestSet, JCS, 3 hash types
-│   ├── entities.py          23 entity models
-│   ├── resolver.py          R0-R5 staged resolver
-│   ├── events.py            Append-only + Merkle checkpoints
-│   ├── schema_registry.py   Immutable, versioned
-│   ├── completeness.py      WorkCompleteness projection
-│   ├── ingest.py            5-step pipeline
-│   ├── api.py               FastAPI v1 (18 endpoints)
-│   ├── tei_utils.py         Shared TEI parser
-│   ├── mcp_server.py        Agent interface
-│   ├── conformance_test.py  12-step verification
-│   ├── run_recorder.py      Content-addressed records
-│   ├── audit.py             Golden-file audit
-│   ├── trace.py             Run trace
-│   ├── schemas.py           Data validators
-│   ├── db/
-│   │   ├── connection.py    Postgres connection
-│   │   ├── migrate.py       Migration runner
-│   │   └── store.py         Database operations
-│   ├── adapters/            13 adapters
-│   ├── serializers/         7 serializers
-│   └── factory/             Translation pipeline
-├── migrations/
-│   ├── 001_create_all_tables.sql
-│   └── 002_add_missing_tables.sql
-├── data/events/             Event store
-├── requirements.txt
-├── README.md
-├── HANDSOVER-2026-08-17.md
-├── BUILD-NOTES-2026-08-17.md
-└── NEWBUILDCHECKLIST.md
-```
+---
 
-## Verification
+## HOW TO CONTINUE
+
+### Step 1: Ingest More Data
+The following sources need re-ingestion:
+- **Archive.org**: 50 records, only 20 ext_ids
+- **OpenAlex**: 50 records, no ext_ids
+- **Sanskritree**: 44 records, no ext_ids
 
 ```bash
-# Conformance test
-cd /root/openpatalanew && PYTHONPATH=. python3 patala/conformance_test.py
+# Check current state
+PGPASSWORD=patala psql -U patala -h 127.0.0.1 -d openpatala -c "SELECT scheme, COUNT(*) FROM external_identifiers GROUP BY scheme;"
 
-# API test
-curl http://127.0.0.1:8801/health
-curl http://127.0.0.1:8801/v1/works?limit=5
-curl http://127.0.0.1:8801/v1/bundle/{id}
+# Re-ingest Archive.org
+cd /root/openpatalanew
+PYTHONPATH=. python3 -c "
+import asyncio
+from patala.adapters.archiveorg.adapter import ArchiveOrgAdapter
+adapter = ArchiveOrgAdapter()
+result = asyncio.run(adapter.discover(limit=50))
+print(f'Found {len(result[\"items\"])} items')
+"
+```
 
-# Database check
-PGPASSWORD=patala psql -U patala -h 127.0.0.1 -d openpatala -c "SELECT COUNT(*) FROM works;"
+### Step 2: Link Works to Assertions
+1035 works don't have assertions. Need to create assertions for these works.
+
+```bash
+# Check works without assertions
+PGPASSWORD=patala psql -U patala -h 127.0.0.1 -d openpatala -c "
+SELECT COUNT(*) FROM works w
+WHERE NOT EXISTS (
+    SELECT 1 FROM assertions a WHERE a.subject_id = w.id
+);
+"
+
+# Create assertions for works with titles
+PYTHONPATH=. python3 -c "
+import psycopg2
+from datetime import datetime, timezone
+
+conn = psycopg2.connect('postgresql://patala:patala@localhost:5432/openpatala')
+cur = conn.cursor()
+
+# Get works without assertions
+cur.execute('''
+    SELECT w.id, w.preferred_title
+    FROM works w
+    WHERE NOT EXISTS (
+        SELECT 1 FROM assertions a WHERE a.subject_id = w.id
+    )
+    AND w.preferred_title IS NOT NULL
+    AND LENGTH(w.preferred_title) > 5
+    LIMIT 100
+''')
+works = cur.fetchall()
+
+for work_id, title in works:
+    # Create TITLE assertion
+    cur.execute('''
+        INSERT INTO assertions (id, subject_id, predicate_uri, literal, epistemic_mode, evidence_use_ids, asserted_by, recorded_at, lifecycle, created_from_event, schema_uri)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+    ''', (
+        f'PTCAS_manual_{work_id[:20]}_title',
+        work_id,
+        'TITLE',
+        title,
+        'observed',
+        '{}',
+        'MANUAL',
+        datetime.now(timezone.utc),
+        'ACTIVE',
+        'PTEVT_manual_link',
+        'https://patala.org/schemas/v2/assertion.json',
+    ))
+
+conn.commit()
+print(f'Created {len(works)} assertions')
+"
+```
+
+### Step 3: Fix Coverage Engine
+Coverage engine returns UNKNOWN for most works. Need to fix coverage computation.
+
+```bash
+# Check coverage for a work with assertions
+PYTHONPATH=. python3 -c "
+import sys
+sys.path.insert(0, '/root/openpatalanew')
+from patala.coverage import CoverageEngine
+import psycopg2
+
+conn = psycopg2.connect('postgresql://patala:patala@localhost:5432/openpatala')
+engine = CoverageEngine(conn)
+
+# Get a work with assertions
+cur = conn.cursor()
+cur.execute('''
+    SELECT w.id, w.preferred_title
+    FROM works w
+    JOIN assertions a ON a.subject_id = w.id
+    WHERE a.predicate_uri = 'TITLE'
+    LIMIT 1
+''')
+work_id, title = cur.fetchone()
+
+coverage = engine.compute_coverage(work_id)
+print(f'Work: {work_id[:25]}  title={title[:40]}')
+print(f'  Identity: {coverage.identity.state.value}')
+print(f'  Author: {coverage.author.state.value}')
+print(f'  Title: {coverage.title.state.value}')
+print(f'  Text: {coverage.text.state.value}')
+"
+```
+
+### Step 4: Re-run Experiments
+After fixing data, re-run all experiments:
+
+```bash
+cd /root/openpatalanew
+
+# Re-run all experiments
+PYTHONPATH=. python3 patala/experiments/gold_dossiers.py
+PYTHONPATH=. python3 patala/experiments/cross_source_identity.py
+PYTHONPATH=. python3 patala/experiments/openalex_query.py
+PYTHONPATH=. python3 patala/experiments/coverage_frontier.py
+PYTHONPATH=. python3 patala/experiments/provider_expansion.py
+PYTHONPATH=. python3 patala/experiments/self_filling_discovery.py
+PYTHONPATH=. python3 patala/experiments/annotation_interop.py
+PYTHONPATH=. python3 patala/experiments/witness_collation.py
+```
+
+### Step 5: Update Handover
+After completing steps, update `HANDSOVER-2026-08-17.md` with new state.
+
+---
+
+## KEY FILES TO READ FIRST
+
+1. `AGENTS.md` — Rules for agents
+2. `HANDSOVER-2026-08-17.md` — Current state
+3. `PEER-REVIEW-4.md` — Honest self-assessment
+4. `PATALAPATH2.md` — Corrected phase map
+5. `DEV-PLAN.md` — Updated build plan
+
+---
+
+## GIT STATE
+
+```
+Branch: master
+Remote: https://github.com/prx0r/wiggly
+Commits: 26
+Latest: 2783c12
 ```
 
 ---
 
-*Build session: 2026-08-17 04:00-11:15 UTC*
-*Duration: 7 hours 15 minutes*
-*Result: 12/12 conformance, 18/18 API, 13 adapters, 7 serializers, 34 tables, 613 works*
+## THE ANTI-CHEAT RULE
+
+**"Nothing written in README, commit messages or markdown counts as evidence."**
+
+Evidence must be machine-produced from actual code execution.
+
+---
+
+*Session paused at 2026-08-17T19:15:00Z*
