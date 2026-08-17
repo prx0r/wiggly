@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from patala.hashing import uuid7, make_digest_set, raw_byte_hash
 from patala.entities import Work
 from patala.resolver import Resolver
-from patala.events import EventStore
+from patala.events_v2 import CanonicalEventStore as EventStore
 from patala.completeness import CompletenessCompiler
 from patala.adapters.base import SourceAdapter
 from patala.db import store
