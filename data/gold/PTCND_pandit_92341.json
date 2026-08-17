@@ -1,0 +1,50 @@
+{
+  "work_id": "PTCND_pandit_92341",
+  "title": "Abhinavacandrikā",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_pandit_92341_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Abhinavacandrikā",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_pandit_92341_aka_4223",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Tattvaprakāśikāvyākhayā",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 2,
+  "external_identifiers": [
+    {
+      "id": "PTEXT_pandit_92341",
+      "scheme": "PANDIT",
+      "identifier": "92341"
+    }
+  ],
+  "ext_ids_count": 1,
+  "events": [],
+  "events_count": 0,
+  "coverage": {
+    "has_author": false,
+    "has_title": true,
+    "has_language": false,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": false,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": true,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:47:25.286575+00:00"
+}

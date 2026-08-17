@@ -1,0 +1,59 @@
+{
+  "work_id": "PTCND_sa_abhinavagupta-IzvarapratyabhijJAvimarzinI",
+  "title": "Īśvarapratyabhijñāvimarśinī",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_sa_abhinavagupta-IzvarapratyabhijJAvimarzinI_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Īśvarapratyabhijñāvimarśinī",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_sa_abhinavagupta-IzvarapratyabhijJAvimarzinI_author",
+      "predicate": "AUTHOR",
+      "object_id": null,
+      "literal": "Abhinavagupta",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_sa_abhinavagupta-IzvarapratyabhijJAvimarzinI_lang",
+      "predicate": "LANGUAGE",
+      "object_id": null,
+      "literal": "en",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 3,
+  "external_identifiers": [
+    {
+      "id": "PTEXT_sa_abhinavagupta-IzvarapratyabhijJAvimarzinI_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_abhinavagupta-IzvarapratyabhijJAvimarzinI"
+    }
+  ],
+  "ext_ids_count": 1,
+  "events": [],
+  "events_count": 0,
+  "coverage": {
+    "has_author": true,
+    "has_title": true,
+    "has_language": true,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": true,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:47:25.091265+00:00"
+}

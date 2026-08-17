@@ -1,0 +1,59 @@
+{
+  "work_id": "PTCND_sa_SimAnanda-sAMkhyatattvavivecana",
+  "title": "Sāṃkhyatattvavivecana a commentary on the Tattvasamāsa, an abstract of Sāṃkhya philosophy in (23-) 25 sūtras.",
+  "work_type": "TEXT",
+  "assertions": [
+    {
+      "id": "PTCAS_sa_SimAnanda-sAMkhyatattvavivecana_title",
+      "predicate": "TITLE",
+      "object_id": null,
+      "literal": "Sāṃkhyatattvavivecana a commentary on the Tattvasamāsa, an abstract of Sāṃkhya philosophy in (23-) 25 sūtras.",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_sa_SimAnanda-sAMkhyatattvavivecana_author",
+      "predicate": "AUTHOR",
+      "object_id": null,
+      "literal": "Ṣimānanda",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    },
+    {
+      "id": "PTCAS_sa_SimAnanda-sAMkhyatattvavivecana_lang",
+      "predicate": "LANGUAGE",
+      "object_id": null,
+      "literal": "en",
+      "epistemic_mode": "observed",
+      "asserted_by": "PROVIDER",
+      "asserted_at": null
+    }
+  ],
+  "assertions_count": 3,
+  "external_identifiers": [
+    {
+      "id": "PTEXT_sa_SimAnanda-sAMkhyatattvavivecana_gretil",
+      "scheme": "GRETIL",
+      "identifier": "sa_SimAnanda-sAMkhyatattvavivecana"
+    }
+  ],
+  "ext_ids_count": 1,
+  "events": [],
+  "events_count": 0,
+  "coverage": {
+    "has_author": true,
+    "has_title": true,
+    "has_language": true,
+    "has_date": false,
+    "has_tradition": false,
+    "has_gretil": true,
+    "has_openalex": false,
+    "has_crossref": false,
+    "has_archive": false,
+    "has_pandit": false,
+    "has_sanskritree": false
+  },
+  "created_at": "2026-08-17T17:47:25.137669+00:00"
+}
