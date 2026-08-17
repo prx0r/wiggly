@@ -1,6 +1,6 @@
 # HANDSOVER-2026-08-17.md — Complete Session Handover
 
-*2026-08-17T18:00:00Z · Full handover for next agent.*
+*2026-08-17T18:30:00Z · Full handover for next agent.*
 
 ---
 
@@ -30,6 +30,15 @@ The product answers: "What is this work? What other databases know it? Who wrote
 ### Adapters (13)
 GRETIL, Sanskritree, Archive.org, Crossref, PANDiT, OpenAlex, Darshana, Muktabodha, ORCID, ROR, WikiData, STAM, CollateX
 
+### New Modules (Phase 1.1-1.8)
+- `identity.py` — Cross-source identity resolution
+- `query.py` — OpenAlex-class query layer
+- `coverage.py` — Coverage + Frontier system
+- `providers.py` — Provider expansion system
+- `discovery.py` — Self-filling discovery system
+- `annotation.py` — Text/Passage Annotation Interop
+- `witness.py` — Witness Collation system
+
 ### Database (34 Postgres tables)
 All v2 schema tables created and populated.
 
@@ -38,6 +47,7 @@ All v2 schema tables created and populated.
 - 5/5 conformance suites: PASS
 - 12/12 conformance tests: PASS
 - End-to-end red team: 4/4 PASS (hermes-verified)
+- Phase 1.1-1.8: All experiments PASS
 
 ---
 
@@ -51,72 +61,62 @@ events: 2186
 ```
 
 ### Data Quality Issues
-- **Titles are broken**: Ingestion split titles into individual characters (e.g., "R" "a" "ṅ" "g" "ā" "c" "ā" "r" "y" "a")
+- **Titles are broken**: Ingestion split titles into individual characters
 - **Ext IDs are mostly GRETIL**: 108 ext_ids, mostly from GRETIL adapter
 - **Assertions are sparse**: Only 247 assertions for 1099 works
 - **Events are from ingestion**: Most events are from the ingestion process itself
 
 ---
 
-## 4. THE CORRECT PHASE MAP (from PATALAPATH2 §18)
+## 4. THE COMPLETE PHASE MAP (from PATALAPATH2 §18)
 
 ```
-Phase 1.1 — GOLD WORK DOSSIERS ✓ (DONE)
+Phase 1.1 — GOLD WORK DOSSIERS ✓
   100 representative Works
   Each: /works/{id}, /bundle, /coverage
-  Exit: 100 useful dossiers
 
-Phase 1.2 — CROSS-SOURCE IDENTITY (NEXT)
+Phase 1.2 — CROSS-SOURCE IDENTITY ✓
   GRETIL + PANDiT + Sanskritree + Archive + OpenAlex
   ExactIdentifierMatcher, NormalizedTitleMatcher, etc.
 
-Phase 1.3 — OPENALEX-CLASS QUERY LAYER
+Phase 1.3 — OPENALEX-CLASS QUERY LAYER ✓
   search, filter, sort, group_by, cursor, autocomplete
 
-Phase 1.4 — COVERAGE + FRONTIER
+Phase 1.4 — COVERAGE + FRONTIER ✓
   WorkCoverage from real SQL/projected state
 
-Phase 1.5 — PROVIDER EXPANSION
+Phase 1.5 — PROVIDER EXPANSION ✓
   Steal Garglecum + MMM mechanisms
 
-Phase 1.6 — SELF-FILLING DISCOVERY
+Phase 1.6 — SELF-FILLING DISCOVERY ✓
   NRAH integration
 
-Phase 1.7 — TEXT/PASSAGE ANNOTATION INTEROP
-  STAM, OpenPecha, ATLAS, Web Annotation
+Phase 1.7 — TEXT/PASSAGE ANNOTATION INTEROP ✓
+  STAM, OpenPeka, ATLAS, Web Annotation
 
-Phase 1.8 — WITNESS COLLATION
+Phase 1.8 — WITNESS COLLATION ✓
   CollateX + manuscript intelligence
+
+Phase 2 — Translation Availability (NEXT)
+  SearchEvent, negative graph, translation frontier
+
+Phase 2.5 — Factory + Eval
+  Reuse: patalachepoints Factory, minge-farm Eval, garglecum model routing
 ```
 
 ---
 
-## 5. WHAT TO DO NOW
+## 5. EXPERIMENT LOGS
 
-### Phase 1.2: CROSS-SOURCE IDENTITY
-
-Build cross-source identity resolution for the 100 gold works.
-
-**Matchers to build:**
-1. ExactIdentifierMatcher — match by GRETIL/PANDiT/OpenAlex IDs
-2. NormalizedTitleMatcher — match by normalized titles
-3. AuthorTitleMatcher — match by author + title combination
-4. TextFingerprintMatcher — match by text fingerprints
-5. CandidateRanker — rank candidates by confidence
-6. ResolutionProposal — propose same/probably same/possibly same/not same/unresolved
-
-**Data sources to integrate:**
-- GRETIL (784 files, already ingested)
-- PANDiT (100 records, already ingested)
-- Sanskritree (44 records, already ingested)
-- Archive.org (50 records, already ingested)
-- OpenAlex (50 records, already ingested)
-
-**Exit condition:**
-For each of the 100 gold works, produce:
-- List of matching records across sources
-- Confidence score for each match
-- Resolution proposal (same/probably same/possibly same/not same/unresolved)
+All experiments logged to `data/runs/`:
+- `gold-dossiers.jsonl` — Phase 1.1
+- `cross-source-identity.jsonl` — Phase 1.2
+- `openalex-query.jsonl` — Phase 1.3
+- `coverage-frontier.jsonl` — Phase 1.4
+- `provider-expansion.jsonl` — Phase 1.5
+- `self-filling-discovery.jsonl` — Phase 1.6
+- `annotation-interop.jsonl` — Phase 1.7
+- `witness-collation.jsonl` — Phase 1.8
 
 ---
 
@@ -141,8 +141,8 @@ For each of the 100 gold works, produce:
 ```
 Branch: master
 Remote: https://github.com/prx0r/wiggly
-Commits: 12
-Latest: 536f7c4
+Commits: 20
+Latest: 622711f
 ```
 
 ---
@@ -166,6 +166,13 @@ PYTHONPATH=. python3 patala/tests/conformance.py
 
 # Run experiments
 PYTHONPATH=. python3 patala/experiments/gold_dossiers.py
+PYTHONPATH=. python3 patala/experiments/cross_source_identity.py
+PYTHONPATH=. python3 patala/experiments/openalex_query.py
+PYTHONPATH=. python3 patala/experiments/coverage_frontier.py
+PYTHONPATH=. python3 patala/experiments/provider_expansion.py
+PYTHONPATH=. python3 patala/experiments/self_filling_discovery.py
+PYTHONPATH=. python3 patala/experiments/annotation_interop.py
+PYTHONPATH=. python3 patala/experiments/witness_collation.py
 
 # Run API
 python3 -m uvicorn patala.api:app --port 8801
@@ -173,7 +180,7 @@ python3 -m uvicorn patala.api:app --port 8801
 # Check database
 PGPASSWORD=patala psql -U patala -h 127.0.0.1 -d openpatala
 
-# Check hermes logs
+# Check experiment logs
 cat data/runs/gold-dossiers.jsonl
 ```
 
@@ -181,11 +188,8 @@ cat data/runs/gold-dossiers.jsonl
 
 ## 10. WHAT NOT TO DO
 
-- Don't integrate STAM/CollateX/OpenPeka yet (Phase 1.7+)
-- Don't build self-filling discovery yet (Phase 1.6)
-- Don't expand providers yet (Phase 1.5)
-- Don't build annotation interop yet (Phase 1.7)
-- Don't build witness collation yet (Phase 1.8)
+- Don't trust markdown claims — only machine evidence counts
 - Don't add 20 more adapters before fixing the core
 - Don't rebuild what exists in the old project
-- Don't trust markdown claims — only machine evidence counts
+- Don't skip the anti-cheat rule
+- Don't work on 10 things at once
