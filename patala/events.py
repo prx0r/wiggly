@@ -1,329 +1,230 @@
 #!/usr/bin/env python3
-"""patala/events.py — append-only event store with Merkle checkpoints.
+"""patala/events_v2.py — Postgres-only canonical event ledger.
 
-Per newbuild1 §8-9, §34-37:
-- Events are immutable, append-only
-- Never mutate events — append corrections
-- Merkle checkpoints over event batches
-- Sign checkpoints, not everything
+Per 0.6A: "Make Postgres the sole canonical live event ledger.
+JSONL becomes export/backup/snapshot distribution only."
+
+Per newbuild1 §9: "Never mutate events."
 
 "Tools don't become truth. Their outputs become observations." — newbuild
 """
 from __future__ import annotations
 
-import hashlib
 import json
 import sys
 import time
-from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[1]))
-from patala.hashing import uuid7, canonical_jcs_hash, make_digest
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from patala.hashing import uuid7, canonical_jcs_hash
+from patala.db import store
 
 
-@dataclass
-class Event:
-    """An immutable event in the append-only log.
+class CanonicalEventStore:
+    """Postgres-only canonical event ledger.
 
-    Per newbuild1 §8: "Something happened. Not: Here is the current state of the world."
-    """
-    event_id: str = field(default_factory=lambda: f"PTEVT_{uuid7()}")
-    event_type: str = ""
-    stream_id: str | None = None
-    entity_ids: list[str] = field(default_factory=list)
-    schema_uri: str = "https://patala.org/schemas/v2/event-envelope.json"
-    actor_id: str | None = None
-    occurred_at: str | None = None
-    observed_at: str | None = None
-    recorded_at: str = ""
-    payload: dict = field(default_factory=dict)
-    payload_digest: dict = field(default_factory=dict)
-    derivation_refs: list[str] = field(default_factory=list)
-    run_id: str | None = None
-    cursor: int = 0  # position in the log
-
-
-@dataclass
-class MerkleCheckpoint:
-    """Merkle tree root over event batches.
-
-    Per newbuild1 §34-35: "Many events → one independently verifiable root."
-    """
-    id: str = field(default_factory=lambda: f"PTCHK_{uuid7()}")
-    previous_checkpoint_id: str | None = None
-    first_event_cursor: int = 0
-    last_event_cursor: int = 0
-    event_count: int = 0
-    merkle_algorithm: str = "sha512"
-    merkle_root: str = ""
-    generated_at: str = ""
-    signatures: list[dict] = field(default_factory=list)
-
-
-class EventStore:
-    """Append-only event store with Merkle checkpointing.
-
-    Per newbuild1 §33: "Do not solve distributed integrity with a global JSONL chain.
-    Use batches + Merkle checkpoints."
+    Per 0.6A:
+    - One Event ID
+    - One cursor (DB-generated)
+    - One payload digest
+    - One schema URI
+    - No JSONL writer
     """
 
-    def __init__(self, store_dir: Path | str):
-        self.store_dir = Path(store_dir)
-        self.store_dir.mkdir(parents=True, exist_ok=True)
-        self.events_file = self.store_dir / "events.jsonl"
-        self.checkpoints_file = self.store_dir / "checkpoints.jsonl"
-        self._cursor = self._count_events()
-
-    def _count_events(self) -> int:
-        """Count existing events in the log."""
-        if not self.events_file.exists():
-            return 0
-        with open(self.events_file, "r") as f:
-            return sum(1 for _ in f)
-
-    def append(self, event_type: str, entity_ids: list[str],
+    def append(self, event_type: str, entity_ids: list,
                payload: dict, actor_id: str | None = None,
                schema_uri: str = "https://patala.org/schemas/v2/event-envelope.json",
                occurred_at: str | None = None,
                observed_at: str | None = None,
                derivation_refs: list[str] | None = None,
-               run_id: str | None = None) -> Event:
-        """Append an event to the log. Never mutate existing events."""
+               run_id: str | None = None) -> dict:
+        """Append event to Postgres (sole canonical ledger)."""
+        event_id = f"PTEVT_{uuid7().replace('-', '')[:16]}"
         now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
-        # Compute payload digest using JCS canonicalization
-        # Per newbuild1 §4B: "canonical JSON → RFC 8785 JCS → SHA-512"
+        # JCS payload digest
         from patala.hashing import canonical_jcs_hash
         payload_digest = canonical_jcs_hash(payload, algorithm="sha512")
 
-        event = Event(
-            event_type=event_type,
-            entity_ids=entity_ids,
-            schema_uri=schema_uri,
-            actor_id=actor_id,
-            occurred_at=occurred_at,
-            observed_at=observed_at,
-            recorded_at=now,
-            payload=payload,
-            payload_digest=payload_digest,
-            derivation_refs=derivation_refs or [],
-            run_id=run_id,
-            cursor=self._cursor,
+        conn = store.get_conn()
+        cur = conn.cursor()
+        cur.execute("""
+            INSERT INTO events (event_id, event_type, entity_ids, schema_uri,
+                actor_id, occurred_at, observed_at, recorded_at, payload,
+                payload_digest, derivation_refs, run_id)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, (event_id, event_type, entity_ids, schema_uri,
+              actor_id, occurred_at, observed_at, now,
+              json.dumps(payload), json.dumps(payload_digest),
+              derivation_refs or [], run_id))
+        conn.commit()
+        cur.close()
+        conn.close()
+
+        return {"event_id": event_id, "recorded_at": now}
+
+    def get_events_since(self, cursor: int, limit: int = 100) -> list[dict]:
+        """Read events from Postgres (sole canonical source)."""
+        conn = store.get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM events WHERE cursor > %s ORDER BY cursor LIMIT %s", (cursor, limit))
+        rows = cur.fetchall()
+        cols = [d[0] for d in cur.description]
+        cur.close()
+        conn.close()
+        return [dict(zip(cols, r)) for r in rows]
+
+    def count(self) -> int:
+        conn = store.get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT COUNT(*) FROM events")
+        count = cur.fetchone()[0]
+        cur.close()
+        conn.close()
+        return count
+
+    def max_cursor(self) -> int:
+        conn = store.get_conn()
+        cur = conn.cursor()
+        cur.execute("SELECT COALESCE(MAX(cursor), 0) FROM events")
+        max_c = cur.fetchone()[0]
+        cur.close()
+        conn.close()
+        return max_c
+
+    def build_merkle_checkpoint(self):
+        """Build a Merkle checkpoint over all events in cursor order."""
+        import hashlib
+        from types import SimpleNamespace
+
+        conn = store.get_conn()
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT event_id, cursor, payload_digest FROM events ORDER BY cursor"
         )
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
 
-        # Append to JSONL (append-only, never overwrite)
-        with open(self.events_file, "a") as f:
-            record = {
-                "event_id": event.event_id,
-                "event_type": event.event_type,
-                "stream_id": event.stream_id,
-                "entity_ids": event.entity_ids,
-                "schema_uri": event.schema_uri,
-                "actor_id": event.actor_id,
-                "occurred_at": event.occurred_at,
-                "observed_at": event.observed_at,
-                "recorded_at": event.recorded_at,
-                "payload": event.payload,
-                "payload_digest": event.payload_digest,
-                "derivation_refs": event.derivation_refs,
-                "run_id": event.run_id,
-                "cursor": event.cursor,
-            }
-            f.write(json.dumps(record, default=str) + "\n")
+        if not rows:
+            # Empty ledger — synthetic root
+            leaf_hashes = []
+            root = hashlib.sha256(b"empty-ledger").hexdigest()
+        else:
+            leaf_hashes = []
+            for event_id, cursor, payload_digest in rows:
+                # Each leaf = hash(event_id || cursor || payload_digest)
+                if isinstance(payload_digest, dict):
+                    digest_val = payload_digest.get("value", "")
+                else:
+                    digest_val = str(payload_digest)
+                leaf_input = f"{event_id}:{cursor}:{digest_val}".encode()
+                leaf_hashes.append(hashlib.sha256(leaf_input).hexdigest())
 
-        self._cursor += 1
-        return event
+            # Build Merkle root by pairwise hashing up the tree
+            level = leaf_hashes
+            while len(level) > 1:
+                next_level = []
+                for i in range(0, len(level), 2):
+                    left = level[i]
+                    right = level[i + 1] if i + 1 < len(level) else left
+                    combined = hashlib.sha256(
+                        (left + right).encode()
+                    ).hexdigest()
+                    next_level.append(combined)
+                level = next_level
+            root = level[0]
 
-    def get_event(self, event_id: str) -> Event | None:
-        """Get an event by ID."""
-        if not self.events_file.exists():
-            return None
-        with open(self.events_file, "r") as f:
-            for line in f:
-                record = json.loads(line)
-                if record["event_id"] == event_id:
-                    return Event(**record)
-        return None
+        # Get previous checkpoint
+        conn2 = store.get_conn()
+        cur2 = conn2.cursor()
+        try:
+            cur2.execute(
+                "SELECT id FROM ledger_checkpoints ORDER BY first_event_cursor DESC LIMIT 1"
+            )
+            prev_row = cur2.fetchone()
+            prev_id = prev_row[0] if prev_row else None
+        finally:
+            cur2.close()
+            conn2.close()
 
-    def get_events_for_entity(self, entity_id: str) -> list[Event]:
-        """Get all events for an entity."""
-        events = []
-        if not self.events_file.exists():
-            return events
-        with open(self.events_file, "r") as f:
-            for line in f:
-                record = json.loads(line)
-                if entity_id in record.get("entity_ids", []):
-                    events.append(Event(**record))
-        return events
-
-    def get_events_since(self, cursor: int, limit: int = 100) -> list[Event]:
-        """Get events since a cursor position."""
-        events = []
-        if not self.events_file.exists():
-            return events
-        with open(self.events_file, "r") as f:
-            for line in f:
-                record = json.loads(line)
-                if record["cursor"] > cursor:
-                    events.append(Event(**record))
-                    if len(events) >= limit:
-                        break
-        return events
-
-    def build_merkle_checkpoint(self, batch_size: int = 1000) -> MerkleCheckpoint:
-        """Build a Merkle checkpoint over recent events.
-
-        Per newbuild1 §34: "Periodically: all uncheckpointed events → sort deterministically →
-        event digest leaves → Merkle tree → root hash."
-        """
-        # Find the last checkpoint's cursor
-        last_cursor = -1  # Start from -1 so first checkpoint includes cursor 0
-        last_checkpoint_id = None
-        if self.checkpoints_file.exists():
-            with open(self.checkpoints_file, "r") as f:
-                for line in f:
-                    cp = json.loads(line)
-                    last_cursor = cp.get("last_event_cursor", -1)
-                    last_checkpoint_id = cp.get("id")
-
-        # Get events since last checkpoint
-        events = self.get_events_since(last_cursor, limit=batch_size)
-        if not events:
-            return MerkleCheckpoint()
-
-        # Build Merkle tree
-        leaves = []
-        for event in events:
-            event_bytes = json.dumps({
-                "event_id": event.event_id,
-                "event_type": event.event_type,
-                "entity_ids": event.entity_ids,
-                "recorded_at": event.recorded_at,
-                "payload": event.payload,
-            }, sort_keys=True, default=str).encode()
-            leaf_hash = hashlib.sha512(event_bytes).hexdigest()
-            leaves.append(leaf_hash)
-
-        # Simple Merkle tree (pair hashes up)
-        while len(leaves) > 1:
-            next_level = []
-            for i in range(0, len(leaves), 2):
-                left = leaves[i]
-                right = leaves[i + 1] if i + 1 < len(leaves) else left
-                combined = hashlib.sha512(f"{left}{right}".encode()).hexdigest()
-                next_level.append(combined)
-            leaves = next_level
-
-        merkle_root = leaves[0] if leaves else ""
-
+        checkpoint_id = f"PTCP_{uuid7().replace('-', '')[:16]}"
         now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        checkpoint = MerkleCheckpoint(
-            previous_checkpoint_id=last_checkpoint_id,
-            first_event_cursor=last_cursor + 1,
-            last_event_cursor=events[-1].cursor,
-            event_count=len(events),
-            merkle_root=merkle_root,
-            generated_at=now,
+        first_cursor = rows[0][1] if rows else 0
+        last_cursor = rows[-1][1] if rows else 0
+        event_count = len(rows)
+
+        merkle_obj = {"root": root, "leaf_count": len(leaf_hashes)}
+
+        conn3 = store.get_conn()
+        cur3 = conn3.cursor()
+        cur3.execute(
+            """INSERT INTO ledger_checkpoints
+               (id, previous_checkpoint_id, first_event_cursor, last_event_cursor,
+                event_count, merkle, generated_at)
+               VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+            (checkpoint_id, prev_id, first_cursor, last_cursor,
+             event_count, json.dumps(merkle_obj), now),
         )
+        conn3.commit()
+        cur3.close()
+        conn3.close()
 
-        # Append checkpoint to JSONL
-        with open(self.checkpoints_file, "a") as f:
-            f.write(json.dumps({
-                "id": checkpoint.id,
-                "previous_checkpoint_id": checkpoint.previous_checkpoint_id,
-                "first_event_cursor": checkpoint.first_event_cursor,
-                "last_event_cursor": checkpoint.last_event_cursor,
-                "event_count": checkpoint.event_count,
-                "merkle_algorithm": checkpoint.merkle_algorithm,
-                "merkle_root": checkpoint.merkle_root,
-                "generated_at": checkpoint.generated_at,
-                "signatures": checkpoint.signatures,
-            }, default=str) + "\n")
-
-        return checkpoint
+        return SimpleNamespace(id=checkpoint_id, merkle=merkle_obj, generated_at=now)
 
     def verify_checkpoint(self, checkpoint_id: str) -> bool:
-        """Verify a checkpoint's Merkle root is correct."""
-        if not self.checkpoints_file.exists():
-            return False
+        """Verify a checkpoint: recompute Merkle root from events and compare."""
+        import hashlib
 
-        # Find the checkpoint
-        checkpoint = None
-        with open(self.checkpoints_file, "r") as f:
-            for line in f:
-                cp = json.loads(line)
-                if cp["id"] == checkpoint_id:
-                    checkpoint = cp
-                    break
+        conn = store.get_conn()
+        cur = conn.cursor()
 
-        if not checkpoint:
-            return False
-
-        # Rebuild the Merkle tree for the events in this checkpoint
-        events = self.get_events_since(
-            checkpoint["first_event_cursor"] - 1,
-            limit=checkpoint["event_count"]
+        # Load checkpoint
+        cur.execute(
+            "SELECT first_event_cursor, last_event_cursor, merkle FROM ledger_checkpoints WHERE id = %s",
+            (checkpoint_id,),
         )
+        cp_row = cur.fetchone()
+        if not cp_row:
+            cur.close()
+            conn.close()
+            return False
+        first_c, last_c, merkle = cp_row
+        if isinstance(merkle, str):
+            merkle = json.loads(merkle)
+        stored_root = merkle.get("root", "")
 
-        leaves = []
-        for event in events:
-            event_bytes = json.dumps({
-                "event_id": event.event_id,
-                "event_type": event.event_type,
-                "entity_ids": event.entity_ids,
-                "recorded_at": event.recorded_at,
-                "payload": event.payload,
-            }, sort_keys=True, default=str).encode()
-            leaf_hash = hashlib.sha512(event_bytes).hexdigest()
-            leaves.append(leaf_hash)
+        # Recompute from events in range
+        cur.execute(
+            "SELECT event_id, cursor, payload_digest FROM events WHERE cursor >= %s AND cursor <= %s ORDER BY cursor",
+            (first_c, last_c),
+        )
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
 
-        # Rebuild Merkle tree
-        while len(leaves) > 1:
+        if not rows:
+            return stored_root == hashlib.sha256(b"empty-ledger").hexdigest()
+
+        leaf_hashes = []
+        for event_id, cursor, payload_digest in rows:
+            if isinstance(payload_digest, dict):
+                digest_val = payload_digest.get("value", "")
+            else:
+                digest_val = str(payload_digest)
+            leaf_input = f"{event_id}:{cursor}:{digest_val}".encode()
+            leaf_hashes.append(hashlib.sha256(leaf_input).hexdigest())
+
+        level = leaf_hashes
+        while len(level) > 1:
             next_level = []
-            for i in range(0, len(leaves), 2):
-                left = leaves[i]
-                right = leaves[i + 1] if i + 1 < len(leaves) else left
-                combined = hashlib.sha512(f"{left}{right}".encode()).hexdigest()
+            for i in range(0, len(level), 2):
+                left = level[i]
+                right = level[i + 1] if i + 1 < len(level) else left
+                combined = hashlib.sha256((left + right).encode()).hexdigest()
                 next_level.append(combined)
-            leaves = next_level
+            level = next_level
 
-        return leaves[0] == checkpoint["merkle_root"] if leaves else False
-
-    @property
-    def cursor(self) -> int:
-        return self._cursor
-
-
-if __name__ == "__main__":
-    import tempfile
-
-    with tempfile.TemporaryDirectory() as tmpdir:
-        store = EventStore(tmpdir)
-
-        print("=== Append Events ===")
-        for i in range(5):
-            event = store.append(
-                event_type="EntityCreated",
-                entity_ids=[f"PTW_{i:04d}"],
-                payload={"title": f"Work {i}", "author": f"Author {i}"},
-            )
-            print(f"  {event.event_id} cursor={event.cursor}")
-
-        print(f"\nTotal events: {store.cursor}")
-
-        print("\n=== Get Events for Entity ===")
-        events = store.get_events_for_entity("PTW_0001")
-        print(f"  Events for PTW_0001: {len(events)}")
-
-        print("\n=== Build Merkle Checkpoint ===")
-        checkpoint = store.build_merkle_checkpoint()
-        print(f"  Checkpoint: {checkpoint.id}")
-        print(f"  Events: {checkpoint.event_count}")
-        print(f"  Merkle root: {checkpoint.merkle_root[:32]}...")
-
-        print("\n=== Verify Checkpoint ===")
-        valid = store.verify_checkpoint(checkpoint.id)
-        print(f"  Valid: {valid}")
+        return level[0] == stored_root
